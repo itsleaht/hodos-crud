@@ -1,6 +1,6 @@
 <template>
    <form action="">
-    <h2 v-if="isEdit">Modifier un lieu</h2>
+    <h2 v-if="isEdit">Modifier un lieu avec l'ID {{$route.params.id}}</h2>
     <h2 v-else>Créer un lieu</h2>
       <div class="field">
         <label class="label">Nom </label>

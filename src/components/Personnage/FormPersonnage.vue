@@ -1,6 +1,6 @@
 <template>
   <form action="">
-    <h2 v-if="isEdit">Modifier un personnage</h2>
+    <h2 v-if="isEdit">Modifier le personnage avec l'id {{$route.params.id}}</h2>
     <h2 v-else>Créer un personnage</h2>
 
     <div class="columns">

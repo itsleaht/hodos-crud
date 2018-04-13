@@ -20,17 +20,17 @@ export default new Router({
         {
           path: 'list',
           name: 'listPersonnage',
-          component: ListPersonnage,
+          component: ListPersonnage
         },
         {
           path: 'create',
           name: 'createPersonnage',
-          component: FormPersonnage,
+          component: FormPersonnage
         },
         {
           path: 'edit/:id',
           name: 'editPersonnage',
-          component: FormPersonnage,
+          component: FormPersonnage
         }
       ]
     },
@@ -42,19 +42,19 @@ export default new Router({
         {
           path: 'list',
           name: 'listLieu',
-          component: ListLieu,
+          component: ListLieu
         },
         {
           path: 'create',
           name: 'createLieu',
-          component: FormLieu,
+          component: FormLieu
         },
         {
           path: 'edit/:id',
           name: 'editLieu',
-          component: FormLieu,
+          component: FormLieu
         }
       ]
-    },
+    }
   ]
 })

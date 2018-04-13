@@ -1,5 +1,29 @@
 <template>
   <div id="app">
+
+    <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
+      <div class="navbar-menu">
+        <!-- navbar start, navbar end -->
+        <div class="navbar-start">
+          <!-- navbar items -->
+          <router-link :to="{name:'listPersonnage'}" class="navbar-item">
+            Personnages
+          </router-link>
+          <router-link :to="{name:'listLieu'}" class="navbar-item">
+            Lieux
+          </router-link>
+        </div>
+        <div class="navbar-end">
+          <!-- navbar items -->
+          <router-link :to="{name:'createPersonnage'}" class="navbar-item">
+            Ajouter Personnages
+          </router-link>
+          <router-link :to="{name:'createLieu'}" class="navbar-item">
+            Ajouter Lieux
+          </router-link>
+        </div>
+      </div>
+    </nav>
     <router-view/>
   </div>
 </template>
@@ -10,13 +34,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+  .router-link-active {
+    background-color: #00b89c;
+  }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

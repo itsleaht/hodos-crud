@@ -46,7 +46,7 @@ export default {
 <style lang="scss">
   form {
       width: 500px;
-      margin: 0 auto 50px;
+      margin: 50px auto;
       text-align: left;
 
       .column {

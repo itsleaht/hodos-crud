@@ -119,7 +119,7 @@ export default {
 
   form {
     width: 500px;
-    margin: 0 auto 50px;
+    margin: 50px autox;
     text-align: left;
 
     .column {

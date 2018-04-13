@@ -109,7 +109,7 @@ export default {
   data () {
     return {
       'lieux': [],
-      isEdit: this.$route.name === 'editPersonnage' ? true : false,
+      isEdit: this.$route.name === 'editPersonnage'
     }
   }
 }
@@ -119,7 +119,7 @@ export default {
 
   form {
     width: 500px;
-    margin: 50px autox;
+    margin: 50px auto;
     text-align: left;
 
     .column {
@@ -128,4 +128,3 @@ export default {
     }
   }
 </style>
-

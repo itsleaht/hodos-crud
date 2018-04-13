@@ -58,3 +58,18 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+  table {
+    margin: 0 auto;
+    tbody {
+      tr {
+        td {
+          a:not(:first-child):not(:last-child) {
+            margin: 0 12px;
+          }
+        }
+      }
+    }
+  }
+</style>

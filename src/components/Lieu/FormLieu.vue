@@ -14,7 +14,7 @@
         <div class="control">
           <div class="select">
             <select multiple>
-              <option v-for="chapter in 100" :key="'lieu_'+index"> Chapitre {{ chapter }} </option>
+              <option v-for="chapter in 100" :key="'lieu_'+chapter"> Chapitre {{chapter}} </option>
             </select>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default {
   name: 'form-lieu',
   data () {
     return {
-      isEdit: this.$route.name === 'editLieu' ? true : false
+      isEdit: this.$route.name === 'editLieu'
     }
   }
 }
@@ -59,4 +59,3 @@ export default {
       }
     }
 </style>
-

@@ -35,35 +35,38 @@ export default {
 </script>
 
 <style lang="scss">
+
   .router-link-active {
     background-color: #00b89c;
   }
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 
-  > div {
-    padding-top: 30px;
-  }
-}
-
-h1 {
-  font-size: 36px;
-  font-weight: bold;
-  text-align: center;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-}
-
-h2 {
-    font-size: 20px;
-    font-weight: bold;
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
+    color: #2c3e50;
+
+    > div {
+      padding-top: 30px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
   }
+
 </style>

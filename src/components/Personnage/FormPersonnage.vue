@@ -1,49 +1,50 @@
 <template>
   <form action="">
-    <h2>Créer un personnage</h2>
+    <h2 v-if="isEdit">Modifier un personnage</h2>
+    <h2 v-else>Créer un personnage</h2>
 
-  <div class="columns">
-    <div class="field card column">
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-        </figure>
+    <div class="columns">
+      <div class="field card column">
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+          </figure>
+        </div>
+        <div class="file is-primary">
+          <label class="file-label">
+            <input class="file-input" type="file" name="perso-image">
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Image de fiche personnage
+              </span>
+            </span>
+          </label>
+        </div>
       </div>
-      <div class="file is-primary">
-        <label class="file-label">
-          <input class="file-input" type="file" name="perso-image">
-          <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload"></i>
+      <div class="field card column">
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+          </figure>
+        </div>
+        <div class="file is-primary">
+          <label class="file-label">
+            <input class="file-input" type="file" name="perso-image">
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Image personnage sur lieux
+              </span>
             </span>
-            <span class="file-label">
-              Image de fiche personnage
-            </span>
-          </span>
-        </label>
+          </label>
+        </div>
       </div>
     </div>
-    <div class="field card column">
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-        </figure>
-      </div>
-      <div class="file is-primary">
-        <label class="file-label">
-          <input class="file-input" type="file" name="perso-image">
-          <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload"></i>
-            </span>
-            <span class="file-label">
-              Image personnage sur lieux
-            </span>
-          </span>
-        </label>
-      </div>
-    </div>
-  </div>
 
     <div class="field">
       <label class="label">Nom </label>
@@ -60,7 +61,7 @@
     </div>
 
     <div class="field">
-      <label class="label">Type</label>
+      <label class="label">Rôle</label>
       <div class="control">
         <input class="input" type="text" placeholder="Ex : Guide les âmes perdus / Dieu de la mer ">
       </div>
@@ -108,6 +109,7 @@ export default {
   data () {
     return {
       'lieux': [],
+      isEdit: this.$route.name === 'editPersonnage' ? true : false,
     }
   }
 }

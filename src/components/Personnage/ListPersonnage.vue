@@ -3,50 +3,47 @@
     <h2>Liste personnage</h2>
     <table class="table">
       <thead>
-      <tr>
-        <th><abbr title="Position">Pos</abbr></th>
-        <th>Team</th>
-        <th><abbr title="Played">Pld</abbr></th>
-        <th><abbr title="Won">W</abbr></th>
-        <th><abbr title="Drawn">D</abbr></th>
-        <th><abbr title="Lost">L</abbr></th>
-        <th><abbr title="Goals for">GF</abbr></th>
-        <th><abbr title="Goals against">GA</abbr></th>
-        <th><abbr title="Goal difference">GD</abbr></th>
-        <th><abbr title="Points">Pts</abbr></th>
-        <th>Qualification or relegation</th>
-      </tr>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
       </thead>
       <tfoot>
-      <tr>
-        <th><abbr title="Position">Pos</abbr></th>
-        <th>Team</th>
-        <th><abbr title="Played">Pld</abbr></th>
-        <th><abbr title="Won">W</abbr></th>
-        <th><abbr title="Drawn">D</abbr></th>
-        <th><abbr title="Lost">L</abbr></th>
-        <th><abbr title="Goals for">GF</abbr></th>
-        <th><abbr title="Goals against">GA</abbr></th>
-        <th><abbr title="Goal difference">GD</abbr></th>
-        <th><abbr title="Points">Pts</abbr></th>
-        <th>Qualification or relegation</th>
-      </tr>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
       </tfoot>
       <tbody>
-      <tr>
-        <th>1</th>
-        <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C." title="Leicester City F.C.">Leicester City</a> <strong>(C)</strong>
-        </td>
-        <td>38</td>
-        <td>23</td>
-        <td>12</td>
-        <td>3</td>
-        <td>68</td>
-        <td>36</td>
-        <td>+32</td>
-        <td>81</td>
-        <td>Qualification for the <a href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage" title="2016–17 UEFA Champions League">Champions League group stage</a></td>
-      </tr>
+        <tr v-for="personnage in personnages" :key="personnage.id">
+          <th>{{personnage.id}}</th>
+          <td>{{personnage.name}}</td>
+          <td>{{personnage.role}}</td>
+          <td>
+            <a class="button is-info">
+              <span class="icon is-small">
+                <i class="fas fa-eye"></i>
+              </span>
+              <span>Voir</span>
+            </a>
+            <router-link :to="{ name: 'editPersonnage', params: { id: personnage.id }}" class="button is-warning">
+              <span class="icon is-small">
+                <i class="fas fa-edit"></i>
+              </span>
+              <span>Modifier</span>
+            </router-link>
+            <a class="button is-danger">
+              <span class="icon is-small">
+                <i class="fas fa-trash"></i>
+              </span>
+              <span>Supprimer</span>
+            </a>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -54,7 +51,31 @@
 </template>
 
 <script>
+
+import personnages from '../../data/personnages.json'
+
 export default {
-  name: 'list-personnage'
+  name: 'list-personnage',
+  data () {
+    return {
+      personnages
+    }
+  }
 }
 </script>
+
+<style lang="scss">
+  table {
+    margin: 0 auto;
+    tbody {
+      tr {
+        td {
+          a:not(:first-child):not(:last-child) {
+            margin: 0 12px;
+          }
+        }
+      }
+    }
+  }
+
+</style>

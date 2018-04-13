@@ -44,7 +44,20 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
+  > div {
+    padding-top: 30px;
+  }
 }
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
 h2 {
     font-size: 20px;
     font-weight: bold;

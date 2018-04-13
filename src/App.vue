@@ -19,4 +19,12 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+  }
 </style>

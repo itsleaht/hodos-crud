@@ -1,22 +1,17 @@
 [
-  {
-    "id": "1",
-    "name": "Athènes"
-  },
-  {
-    "id": "2",
-    "name": "Paris"
-  },
-  {
-    "id": "3",
-    "name": "Londres"
-  },
-  {
-    "id": "4",
-    "name": "Berlin"
-  },
-  {
-    "id": "5",
-    "name": "Amsterdam"
-  }
+    {
+        "id": 0,
+        "name": "Mont Parnasse",
+        "chapters": [
+            1,
+            3
+        ]
+    },
+    {
+        "id": 1,
+        "name": "Montagne",
+        "chapters": [
+            2
+        ]
+    }
 ]

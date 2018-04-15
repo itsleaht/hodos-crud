@@ -33,7 +33,7 @@
               </span>
             <span>Modifier</span>
           </router-link>
-          <a class="button is-danger">
+          <a class="button is-danger" @click="deleteAlert(lieu.id)">
               <span class="icon is-small">
                 <i class="fas fa-trash"></i>
               </span>
@@ -54,6 +54,15 @@ export default {
   data () {
     return {
       lieux
+    }
+  },
+  methods: {
+    deleteAlert(id) {
+      if (confirm("Êtes-vous sûr de vouloir supprimer ce personnage ?")) {
+        this.$http.delete('http://localhost:3000/api/lieux/delete/'+id).then((response) => {
+          this.personnages = JSON.parse(response.bodyText)
+        })
+      }
     }
   }
 }

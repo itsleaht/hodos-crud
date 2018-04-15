@@ -207,7 +207,47 @@ app.post('/api/lieux/create', (req, res) => {
 /* ------------ */
 /* Delete actions */
 /* ------------ */
+app.delete('/api/personnages/delete/:id', function(req, res) {
+  fs.readFile(PERSONNAGES_FILE, function(err, data) {
+    if (err) {
+      console.error(err)
+      process.exit(1)
+    }
+    const json = JSON.parse(data);
+    const personnage = utils.findOneById(req.params.id, json)
 
+    json.splice(personnage.index, 1)
+
+    fs.writeFile(PERSONNAGES_FILE, JSON.stringify(json, null, 4), function(err) {
+      if (err) {
+        console.error(err)
+        process.exit(1)
+      }
+      res.json(json);
+     })
+  })
+})
+
+app.delete('/api/lieux/delete/:id', function(req, res) {
+  fs.readFile(LIEUX_FILE, function(err, data) {
+    if (err) {
+      console.error(err)
+      process.exit(1)
+    }
+    const json = JSON.parse(data);
+    const lieu = utils.findOneById(req.params.id, json)
+
+    json.splice(lieu.index, 1)
+
+    fs.writeFile(LIEUX_FILE, JSON.stringify(json, null, 4), function(err) {
+      if (err) {
+        console.error(err)
+        process.exit(1)
+      }
+      res.json(json);
+     })
+  })
+})
 /* ------------ */
 /* Utils */
 /* ------------ */

@@ -117,18 +117,18 @@ export default {
   methods: {
     addPersonnage () {
       if (this.isEdit) {
-        this.$http.patch('http://localhost:3000/api/personnages/edit/'+this.personnageId, this.personnage).then((response) => {
+        this.$http.patch('http://localhost:3000/api/personnages/edit/' + this.personnageId, this.personnage).then((response) => {
           this.$router.push({ path: `/personnages/list` })
-        },(response) => {
+        }, (response) => {
           console.log('error')
-          }
+        }
         )
       } else {
         this.$http.post('http://localhost:3000/api/personnages/create', this.personnage).then((response) => {
           this.$router.push({ path: `/personnages/list` })
-        },(response) => {
+        }, (response) => {
           console.log('error')
-          }
+        }
         )
       }
     }
@@ -141,8 +141,8 @@ export default {
     if (this.isEdit) {
       this.personnageId = this.isEdit ? this.$route.params.id : null
       console.log(this.personnageId)
-      this.$http.get('http://localhost:3000/api/personnages/'+this.personnageId).then((response) => {
-      this.personnage = JSON.parse(response.bodyText)
+      this.$http.get('http://localhost:3000/api/personnages/' + this.personnageId).then((response) => {
+        this.personnage = JSON.parse(response.bodyText)
       })
     }
   }

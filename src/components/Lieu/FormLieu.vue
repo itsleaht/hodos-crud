@@ -49,18 +49,18 @@ export default {
   methods: {
     addLieu () {
       if (this.isEdit) {
-        this.$http.patch('http://localhost:3000/api/lieux/edit/'+this.lieuId, this.lieu).then((response) => {
+        this.$http.patch('http://localhost:3000/api/lieux/edit/' + this.lieuId, this.lieu).then((response) => {
           this.$router.push({ path: `/lieux/list` })
-        },(response) => {
+        }, (response) => {
           console.log('error')
-          }
+        }
         )
       } else {
         this.$http.post('http://localhost:3000/api/lieux/create', this.lieu).then((response) => {
           this.$router.push({ path: `/lieux/list` })
-        },(response) => {
+        }, (response) => {
           console.log('error')
-          }
+        }
         )
       }
     }
@@ -68,8 +68,8 @@ export default {
   mounted () {
     if (this.isEdit) {
       this.lieuId = this.isEdit ? this.$route.params.id : null
-      this.$http.get('http://localhost:3000/api/lieux/'+this.lieuId).then((response) => {
-      this.lieu = JSON.parse(response.bodyText)
+      this.$http.get('http://localhost:3000/api/lieux/' + this.lieuId).then((response) => {
+        this.lieu = JSON.parse(response.bodyText)
       })
     }
   }

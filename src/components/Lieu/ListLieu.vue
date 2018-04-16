@@ -47,13 +47,11 @@
 </template>
 
 <script>
-import lieux from '../../data/lieux'
-
 export default {
   name: 'list-lieu',
   data () {
     return {
-      lieux
+      lieux: []
     }
   },
   methods: {
@@ -65,8 +63,10 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log(this.$route.params)
+  created () {
+    this.$http.get('http://localhost:3000/api/lieux').then((response) => {
+      this.lieux = JSON.parse(response.bodyText)
+    })
   }
 }
 </script>

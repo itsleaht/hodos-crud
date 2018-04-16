@@ -52,13 +52,11 @@
 
 <script>
 
-import personnages from '../../data/personnages.json'
-
 export default {
   name: 'list-personnage',
   data () {
     return {
-      personnages
+      personnages: []
     }
   },
   methods: {
@@ -69,6 +67,11 @@ export default {
         })
       }
     }
+  },
+  created () {
+    this.$http.get('http://localhost:3000/api/lieux').then((response) => {
+      this.personnages = JSON.parse(response.bodyText)
+    })
   }
 }
 </script>

@@ -7,19 +7,31 @@
         <div class="navbar-start">
           <!-- navbar items -->
           <router-link :to="{name:'listPersonnage'}" class="navbar-item">
-            Personnages
+           <span>Personnages</span>
+            <span class="icon is-small">
+                <i class="fas fa-user"></i>
+            </span>
           </router-link>
           <router-link :to="{name:'listLieu'}" class="navbar-item">
-            Lieux
+            <span>Lieux</span>
+            <span class="icon is-small">
+                <i class="fas fa-map-marker"></i>
+            </span>
           </router-link>
         </div>
         <div class="navbar-end">
           <!-- navbar items -->
           <router-link :to="{name:'createPersonnage'}" class="navbar-item">
-            Ajouter Personnages
+            <span>Ajouter Personnages</span>
+            <span class="icon is-small">
+                <i class="fas fa-plus-circle"></i>
+            </span>
           </router-link>
           <router-link :to="{name:'createLieu'}" class="navbar-item">
-            Ajouter Lieux
+            <span>Ajouter Lieux</span>
+            <span class="icon is-small">
+                <i class="fas fa-plus-circle"></i>
+            </span>
           </router-link>
         </div>
       </div>
@@ -51,6 +63,15 @@ export default {
       padding-top: 30px;
     }
 
+    nav {
+      a {
+        span {
+          &:nth-child(2) {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
     h1 {
       font-size: 36px;
       font-weight: bold;

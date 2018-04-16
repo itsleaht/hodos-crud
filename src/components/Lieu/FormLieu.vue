@@ -2,6 +2,10 @@
    <form @submit.prevent="addLieu">
     <h2 v-if="isEdit">Modifier un lieu avec l'ID {{$route.params.id}}</h2>
     <h2 v-else>Créer un lieu</h2>
+    <div class="columns">
+    <button :class="'column notification-'+state" v-if="hasError" >Les modifications n'ont pas été sauvegardées. Veuillez ré-essayer plus tard.</button>
+    </div>
+
       <div class="field">
         <label class="label">Nom </label>
         <div class="control">
@@ -33,6 +37,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'form-lieu',
   data () {
@@ -43,25 +48,30 @@ export default {
         name: null,
         chapters: []
       },
-      lieuId: null
+      lieuId: null,
+      state: null,
+      hasError: false
     }
   },
   methods: {
     addLieu () {
       if (this.isEdit) {
         this.$http.patch('http://localhost:3000/api/lieux/edit/' + this.lieuId, this.lieu).then((response) => {
-          this.$router.push({ path: `/lieux/list` })
+          this.$router.push({path: `/lieux/list`})
         }, (response) => {
-          console.log('error')
+          console.log('error', response)
+          this.hasError = true
+          this.state = 1
         }
         )
       } else {
         this.$http.post('http://localhost:3000/api/lieux/create', this.lieu).then((response) => {
-          this.$router.push({ path: `/lieux/list` })
+          this.$router.push({path: '/lieux/list'})
         }, (response) => {
-          console.log('error')
-        }
-        )
+          console.log('error', response)
+          this.hasError = true
+          this.state = 1
+        })
       }
     }
   },
@@ -70,6 +80,9 @@ export default {
       this.lieuId = this.isEdit ? this.$route.params.id : null
       this.$http.get('http://localhost:3000/api/lieux/' + this.lieuId).then((response) => {
         this.lieu = JSON.parse(response.bodyText)
+      }, (response) => {
+        this.hasError = true
+        this.state = 1
       })
     }
   }

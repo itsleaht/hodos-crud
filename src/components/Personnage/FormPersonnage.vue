@@ -2,7 +2,9 @@
   <form @submit.prevent="addPersonnage">
     <h2 v-if="isEdit">Modifier le personnage avec l'id {{$route.params.id}}</h2>
     <h2 v-else>Créer un personnage</h2>
-
+    <div class="columns">
+       <button :class="'column notification-'+state" v-if="hasError" >Les modifications n'ont pas été sauvegardées. Veuillez ré-essayer plus tard.</button>
+    </div>
     <div class="columns">
       <div class="field card column">
         <div class="card-image">
@@ -111,23 +113,29 @@ export default {
       personnage: {},
       isEdit: this.$route.name === 'editPersonnage',
       personnageId: null,
-      lieux: []
+      lieux: [],
+      state: null,
+      hasError: false
     }
   },
   methods: {
     addPersonnage () {
       if (this.isEdit) {
         this.$http.patch('http://localhost:3000/api/personnages/edit/' + this.personnageId, this.personnage).then((response) => {
-          this.$router.push({ path: `/personnages/list` })
+          this.$router.push({path: `/personnages/list`})
         }, (response) => {
-          console.log('error')
+          console.log('error', response)
+          this.hasError = true
+          this.state = 1
         }
         )
       } else {
         this.$http.post('http://localhost:3000/api/personnages/create', this.personnage).then((response) => {
-          this.$router.push({ path: `/personnages/list` })
+          this.$router.push({path: `/personnages/list`})
         }, (response) => {
-          console.log('error')
+          console.log('error', response)
+          this.hasError = true
+          this.state = 1
         }
         )
       }
@@ -140,7 +148,6 @@ export default {
 
     if (this.isEdit) {
       this.personnageId = this.isEdit ? this.$route.params.id : null
-      console.log(this.personnageId)
       this.$http.get('http://localhost:3000/api/personnages/' + this.personnageId).then((response) => {
         this.personnage = JSON.parse(response.bodyText)
       })

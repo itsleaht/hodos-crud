@@ -57,13 +57,16 @@ export default {
     }
   },
   methods: {
-    deleteAlert(id) {
-      if (confirm("Êtes-vous sûr de vouloir supprimer ce personnage ?")) {
-        this.$http.delete('http://localhost:3000/api/lieux/delete/'+id).then((response) => {
+    deleteAlert (id) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce personnage ?')) {
+        this.$http.delete('http://localhost:3000/api/lieux/delete/' + id).then((response) => {
           this.personnages = JSON.parse(response.bodyText)
         })
       }
     }
+  },
+  mounted () {
+    console.log(this.$route.params)
   }
 }
 </script>

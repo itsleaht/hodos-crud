@@ -67,6 +67,20 @@ export default {
       margin-bottom: 20px;
       letter-spacing: 2px;
     }
+
+     .notification {
+       border-radius: 5px;
+
+       &-1 {
+        background: hsl(348, 100%, 61%);
+        color: #fff;
+       }
+
+       &-2 {
+        background: hsl(141, 71%, 48%);
+        color: #fff;
+       }
+      }
   }
 
 </style>

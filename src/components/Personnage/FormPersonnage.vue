@@ -5,47 +5,10 @@
     <div class="columns">
        <button :class="'column notification-'+state" v-if="hasError" >Les modifications n'ont pas été sauvegardées. Veuillez ré-essayer plus tard.</button>
     </div>
+
     <div class="columns">
-      <div class="field card column">
-        <div class="card-image">
-          <figure class="image is-4by3">
-            <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-          </figure>
-        </div>
-        <div class="file is-primary">
-          <label class="file-label">
-            <input class="file-input" type="file" name="perso-image">
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                Image de fiche personnage
-              </span>
-            </span>
-          </label>
-        </div>
-      </div>
-      <div class="field card column">
-        <div class="card-image">
-          <figure class="image is-4by3">
-            <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-          </figure>
-        </div>
-        <div class="file is-primary">
-          <label class="file-label">
-            <input class="file-input" type="file" name="perso-image">
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                Image personnage sur lieux
-              </span>
-            </span>
-          </label>
-        </div>
-      </div>
+      <file-upload class="file-input" :preview="true" :name="'perso-image'" :accept="'image/*'" :titlePreview="'Image de fiche personnage'"></file-upload>
+      <file-upload class="file-input" :preview="true" :name="'lieu-image'" :accept="'image/*'" :titlePreview="'Image personnage sur lieux'"></file-upload>
     </div>
 
     <div class="field">
@@ -106,8 +69,10 @@
 </template>
 
 <script>
+import fileUpload from '@/components/fileUpload'
 export default {
   name: 'form-personnage',
+  components: {fileUpload},
   data () {
     return {
       personnage: {},
@@ -166,6 +131,7 @@ export default {
     .column {
       border: none;
       box-shadow: none;
+      height: 235px;
     }
   }
 </style>

@@ -11,6 +11,7 @@ import ViewLieu from '../components/Lieu/ViewLieu'
 import Chapitre from '../components/Chapitre/Chapitre'
 import ListChapitre from '../components/Chapitre/ListChapitre'
 import FormChapitre from '../components/Chapitre/FormChapitre'
+import ViewChapter from '../components/Chapitre/ViewChapter'
 
 Vue.use(Router)
 
@@ -96,6 +97,11 @@ export default new Router({
           path: 'edit/:id',
           name: 'editChapitre',
           component: FormChapitre
+        },
+        {
+          path: 'view/:id',
+          name: 'viewChapitre',
+          component: ViewChapter
         }
       ]
     }

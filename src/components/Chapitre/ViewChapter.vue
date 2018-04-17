@@ -1,11 +1,11 @@
 <template>
-<div id="view-lieu">
+<div id="view-chapter">
 
-  <h2>Vue du lieu avec l'id {{ $route.params.id }}</h2>
+  <h2>Vue du chapitre avec l'id {{ $route.params.id }}</h2>
 
   <table class="table">
     <tbody>
-    <tr v-for="(value, key, index) in lieu" :key="index">
+    <tr v-for="(value, key, index) in chapter" :key="index">
       <th>{{ key }}</th>
       <td v-if="Array.isArray(value)">
         <span v-for="(val, index2) in value" :key="index2"> {{val}} /</span>
@@ -19,22 +19,24 @@
 </template>
 
 <script>
-
+import chapters from './chapitres'
 export default {
-  name: 'view-personnage',
+  name: 'view-chapter',
   components: {},
   data () {
     return {
-      lieu: {},
-      lieuId: this.$route.params.id
+      chapters,
+      chapter: {},
+      chapterId: this.$route.params.id
     }
   },
   methods: {
   },
   created () {
-    this.$http.get(`http://localhost:3000/api/places/${this.lieuId}`).then((response) => {
-      this.lieu = JSON.parse(response.bodyText)
-    })
+    this.chapter = this.chapters[0]
+   /* this.$http.get(`http://localhost:3000/api/places/${this.lieuId}`).then((response) => {
+      this.chapter = JSON.parse(response.bodyText)
+    })*/
   }
 }
 </script>

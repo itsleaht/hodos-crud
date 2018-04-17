@@ -41,7 +41,7 @@ export default {
   methods: {
   },
   created () {
-    this.$http.get(`http://localhost:3000/api/personnages/${this.personnageId}`).then((response) => {
+    this.$http.get(`http://localhost:3000/api/characters/${this.personnageId}`).then((response) => {
       this.personnage = JSON.parse(response.bodyText)
     })
   }

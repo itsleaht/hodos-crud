@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="addLieu">
+  <form @submit.prevent="addChapitre">
     <h2 v-if="isEdit">Modifier le chapitre avec l'ID {{$route.params.id}}</h2>
     <h2 v-else>Créer un chapitre</h2>
 
@@ -12,19 +12,42 @@
     <div class="field">
       <label class="label">Nom</label>
       <div class="control">
-        <input class="input" type="text" placeholder="Un nom" v-model="chapitre.name">
+        <input class="input" type="text" name="name" placeholder="Un nom" v-model="chapitre.name">
       </div>
     </div>
+
     <div class="field">
       <label class="label">NumberInt</label>
       <div class="control">
-        <input class="input" type="text" placeholder="Entre 1 - 100" v-model="chapitre.numberInt">
+        <input class="input" type="number" min="1" max="100" name="numberInt" placeholder="Entre 1 - 100" v-model="chapitre.numberInt">
       </div>
     </div>
+
     <div class="field">
       <label class="label">NumberRoman</label>
       <div class="control">
-        <input class="input" type="text" placeholder="Ex: XVI" v-model="chapitre.numberRoman">
+        <input class="input" type="text" name="numberRoman" placeholder="Ex: XVI" v-model="chapitre.numberRoman">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Texte début de chapitre</label>
+      <div class="control">
+        <textarea class="textarea" name="beginText" placeholder="Texte du début lu à l'oral" v-model="chapitre.beginText"></textarea>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Previously</label>
+      <div class="control">
+        <textarea class="textarea" name="previously" placeholder="Previously" v-model="chapitre.previously"></textarea>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Blocs de texte</label>
+      <div class="control">
+        <textarea class="textarea" name="textBlocks" placeholder="Bloc de texte" v-model="chapitre.textBlocks"></textarea>
       </div>
     </div>
 
@@ -64,6 +87,9 @@ export default {
         name: null,
         numberInt: null,
         numberRoman: null,
+        beginText: null,
+        previously: null,
+        textBlocks: null
       },
       chapitreId: null,
       state: null,
@@ -71,10 +97,13 @@ export default {
     }
   },
   methods: {
-    /*
-   addLieu () {
-      if (this.isEdit) {
-        this.$http.patch('http://localhost:3000/api/lieux/edit/' + this.lieuId, this.lieu).then((response) => {
+    addChapitre () {
+      const chapitre = this.chapitre
+      chapitre.textBlocks = chapitre.textBlocks.split('#')
+      console.log(chapitre.textBlocks)
+
+      /*if (this.isEdit) {
+        this.$http.patch('http://localhost:3000/api/chapters/edit/' + this.lieuId, this.lieu).then((response) => {
           this.$router.push({path: `/lieux/list`})
         }, (response) => {
           console.log('error', response)
@@ -90,20 +119,21 @@ export default {
           this.hasError = true
           this.state = 1
         })
-      }
-    } */
+      }*/
+    }
   },
   mounted () {
     if (this.isEdit) {
       this.chapitreId = this.isEdit ? this.$route.params.id : null
 
-      /*      this.$http.get('http://localhost:3000/api/lieux/' + this.chapitreId).then((response) => {
+      /*
+      this.$http.get('http://localhost:3000/api/lieux/' + this.chapitreId).then((response) => {
               this.chapitre = JSON.parse(response.bodyText)
             }, (response) => {
               this.hasError = true
               this.state = 1
-            })*/
-
+            })
+            */
     }
   }
 }

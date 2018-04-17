@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "NumberInt": 1,
+    "NumberRoman": "I",
+    "Name": "Un super nom de chapitre"
+  },
+  {
+    "id": 1,
+    "NumberInt": 2,
+    "NumberRoman": "II",
+    "Name": "Un super deuxième nom"
+  },
+  {
+    "id": 2,
+    "NumberInt": 3,
+    "NumberRoman": "III",
+    "Name": "Troisièle nom de chapitre"
+  },
+  {
+    "id": 3,
+    "NumberInt": 4,
+    "NumberRoman": "IV",
+    "Name": "Quatrième nom de chapitre"
+  }
+]

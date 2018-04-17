@@ -14,9 +14,6 @@
     </tr>
     </tbody>
   </table>
-  <pre>
-    {{lieu}}
-  </pre>
 
 </div>
 </template>

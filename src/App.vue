@@ -18,6 +18,12 @@
                 <i class="fas fa-map-marker"></i>
             </span>
           </router-link>
+          <router-link :to="{name:'listChapitre'}" class="navbar-item">
+            <span>Chapitre</span>
+            <span class="icon is-small">
+                <i class="fas fa-bookmark"></i>
+            </span>
+          </router-link>
         </div>
         <div class="navbar-end">
           <!-- navbar items -->
@@ -29,6 +35,12 @@
           </router-link>
           <router-link :to="{name:'createLieu'}" class="navbar-item">
             <span>Ajouter Lieux</span>
+            <span class="icon is-small">
+                <i class="fas fa-plus-circle"></i>
+            </span>
+          </router-link>
+          <router-link :to="{name:'createChapitre'}" class="navbar-item">
+            <span>Ajouter Chapitre</span>
             <span class="icon is-small">
                 <i class="fas fa-plus-circle"></i>
             </span>
@@ -61,6 +73,9 @@ export default {
 
     > div {
       padding-top: 30px;
+      width: 80%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     nav {

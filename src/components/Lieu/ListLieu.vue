@@ -57,14 +57,14 @@ export default {
   methods: {
     deleteAlert (id) {
       if (confirm('Êtes-vous sûr de vouloir supprimer ce personnage ?')) {
-        this.$http.delete('http://localhost:3000/api/lieux/delete/' + id).then((response) => {
+        this.$http.delete('http://localhost:3000/api/places/delete/' + id).then((response) => {
           this.personnages = JSON.parse(response.bodyText)
         })
       }
     }
   },
   created () {
-    this.$http.get('http://localhost:3000/api/lieux').then((response) => {
+    this.$http.get('http://localhost:3000/api/places').then((response) => {
       this.lieux = JSON.parse(response.bodyText)
     })
   }

@@ -1,5 +1,5 @@
 <template>
-  <form enctype="multipart/form-data" action="http://localhost:3000/api/characters/create" ref="addPersonnage" id="addPersonnage" method="post" @submmit.prevent="addPersonnage">
+  <form enctype="multipart/form-data" ref="formAddPersonnage" id="formAddPersonnage" method="post" @submit.prevent="addPersonnage">
     <h2 v-if="isEdit">Modifier le personnage avec l'id {{$route.params.id}}</h2>
     <h2 v-else>Créer un personnage</h2>
     <div class="columns">
@@ -14,8 +14,8 @@
     </div>
 
     <div class="columns">
-      <file-upload class="file-input" :preview="true" :name="'persoImage'" :accept="'image/*'" :titlePreview="'Image de fiche personnage'" :index="0" @isLoaded="handleFile" v-model="personnage.test"></file-upload>
-      <file-upload class="file-input" :preview="true" :name="'lieuImage'" :accept="'image/*'" :titlePreview="'Image personnage sur lieux'" :index="1" @isLoaded="handleFile"></file-upload>
+      <file-upload class="file-input" :preview="true" :name="'profile'" :accept="'image/*'" :titlePreview="'Image de fiche personnage'" :index="0" @isLoaded="handleFile"></file-upload>
+      <file-upload class="file-input" :preview="true" :name="'map'" :accept="'image/*'" :titlePreview="'Image personnage sur lieux'" :index="1" @isLoaded="handleFile"></file-upload>
     </div>
 
     <div class="field">
@@ -91,27 +91,25 @@ export default {
   },
   methods: {
     addPersonnage () {
+      const form = document.querySelector('form')
+      const formData = new FormData(form)
+
       if (this.isEdit) {
-        this.$http.patch('http://localhost:3000/api/characters/edit/' + this.personnageId, this.personnage).then((response) => {
+        this.$http.patch('http://localhost:3000/api/characters/edit/' + this.personnageId, formData).then((response) => {
           this.$router.push({path: `/personnages/list`})
         }, (response) => {
           console.log('error', response)
           this.hasError = true
           this.state = 1
-        }
-        )
+        })
       } else {
-        this.$refs.addPersonnage.submit()
-        return false
-        // console.log('sent personnage', this.personnage)
-        // this.$http.post('http://localhost:3000/api/characters/create', this.personnage).then((response) => {
-        //   console.log('response to API CALL', response)
-        //   // this.$router.push({path: `/personnages/list`})
-        // }, (response) => {
-        //   console.log('error', response)
-        //   this.hasError = true
-        //   this.state = 1
-        // })
+        this.$http.post('http://localhost:3000/api/characters/create', formData).then((response) => {
+          this.$router.push({path: `/personnages/list`})
+        }, (response) => {
+          console.log('error', response)
+          this.hasError = true
+          this.state = 1
+        })
       }
     },
     handleFile(obj) {

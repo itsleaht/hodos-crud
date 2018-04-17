@@ -1,8 +1,10 @@
 <template>
   <div class="field card column">
     <div class="card-image" v-if="preview">
-      <button class="button loadingState" :class="{'is-danger is-loading' : isLoading === 1, 'is-success': isLoading === 2}">
-        <i :class="{'fas fa-check': isLoading === 2}"></i>
+      <button class="button loadingState" :class="{'is-info is-loading': isLoading === 1, 'is-success': isLoading === 2, 'is-danger': isLoading === 3}">
+        <span class="icon is-small">
+          <i :class="{'fas fa-check': isLoading === 2, 'fas fa-times': isLoading === 3 }"></i>
+        </span>
       </button>
       <figure class="image is-4by3">
         <img :src="src" alt="Placeholder image">
@@ -57,7 +59,7 @@ export default {
       const reader = new FileReader()
       const input = this.$refs.input
       const file = input.files[0]
-      
+
       reader.addEventListener('load', () => {
         this.src = reader.result
         this.isLoading = 2

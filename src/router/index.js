@@ -6,6 +6,8 @@ import ListPersonnage from '@/components/Personnage/ListPersonnage'
 import Lieu from '@/components/Lieu/Lieu'
 import FormLieu from '@/components/Lieu/FormLieu'
 import ListLieu from '@/components/Lieu/ListLieu'
+import ViewPersonnage from '../components/Personnage/ViewPersonnage'
+import ViewLieu from '../components/Lieu/ViewLieu'
 
 Vue.use(Router)
 
@@ -31,6 +33,11 @@ export default new Router({
           path: 'edit/:id',
           name: 'editPersonnage',
           component: FormPersonnage
+        },
+        {
+          path: 'view/:id',
+          name: 'viewPersonnage',
+          component: ViewPersonnage
         }
       ]
     },
@@ -53,6 +60,11 @@ export default new Router({
           path: 'edit/:id',
           name: 'editLieu',
           component: FormLieu
+        },
+        {
+          path: 'view/:id',
+          name: 'viewLieu',
+          component: ViewLieu
         }
       ]
     }

@@ -21,12 +21,12 @@
         <th>{{lieu.id}}</th>
         <td>{{lieu.name}}</td>
         <td>
-          <a class="button is-info">
+          <router-link :to="{name: 'viewLieu', params: {id: lieu.id} }" class="button is-info">
               <span class="icon is-small">
                 <i class="fas fa-eye"></i>
               </span>
             <span>Voir</span>
-          </a>
+          </router-link>
           <router-link :to="{ name: 'editLieu', params: { id: lieu.id }}" class="button is-warning">
               <span class="icon is-small">
                 <i class="fas fa-edit"></i>

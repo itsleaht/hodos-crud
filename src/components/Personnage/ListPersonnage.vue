@@ -24,12 +24,12 @@
           <td>{{personnage.name}}</td>
           <td>{{personnage.role}}</td>
           <td>
-            <a class="button is-info">
+            <router-link :to="{name: 'viewPersonnage', params: {id: personnage.id} }" class="button is-info">
               <span class="icon is-small">
                 <i class="fas fa-eye"></i>
               </span>
               <span>Voir</span>
-            </a>
+            </router-link>
             <router-link :to="{ name: 'editPersonnage', params: { id: personnage.id }}" class="button is-warning">
               <span class="icon is-small">
                 <i class="fas fa-edit"></i>
@@ -69,7 +69,7 @@ export default {
     }
   },
   created () {
-    this.$http.get('http://localhost:3000/api/places').then((response) => {
+    this.$http.get('http://localhost:3000/api/characters').then((response) => {
       this.personnages = JSON.parse(response.bodyText)
     })
   }

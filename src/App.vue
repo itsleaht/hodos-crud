@@ -3,9 +3,7 @@
 
     <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
       <div class="navbar-menu">
-        <!-- navbar start, navbar end -->
         <div class="navbar-start">
-          <!-- navbar items -->
           <router-link :to="{name:'listPersonnage'}" class="navbar-item">
            <span>Personnages</span>
             <span class="icon is-small">
@@ -26,9 +24,8 @@
           </router-link>
         </div>
         <div class="navbar-end">
-          <!-- navbar items -->
           <router-link :to="{name:'createPersonnage'}" class="navbar-item">
-            <span>Ajouter Personnages</span>
+            <span>Ajouter Personnage</span>
             <span class="icon is-small">
                 <i class="fas fa-plus-circle"></i>
             </span>
@@ -59,11 +56,6 @@ export default {
 </script>
 
 <style lang="scss">
-
-  .router-link-active {
-    background-color: #00b89c;
-  }
-
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -80,6 +72,9 @@ export default {
 
     nav {
       a {
+        &.router-link-active {
+          background-color: #00b89c;
+        }
         span {
           &:nth-child(2) {
             margin-left: 10px;

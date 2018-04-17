@@ -5,18 +5,18 @@ const state = {
   message: ''
 }
 
-export const NotificationStore = new Vuex.Store ({
+export const NotificationStore = new Vuex.Store({
 
   state: state,
   mutations: {
     ADD_NOTIFICATION: (notification) => {
       let notifState = 0
-      switch(notification.state) {
+      switch (notification.state) {
         case 'success':
-        notifState = 1
+          notifState = 1
           break
         case 'error':
-        notifState = 2
+          notifState = 2
           break
       }
 

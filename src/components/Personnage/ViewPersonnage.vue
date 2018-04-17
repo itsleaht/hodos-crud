@@ -4,12 +4,12 @@
 
   <div class="images">
     <figure class="image">
-      <img src="https://bulma.io/images/placeholders/256x256.png">
-      <figcaption>Légende 1</figcaption>
+      <img :src="src.profile">
+      <figcaption>Image de profil</figcaption>
     </figure>
     <figure class="image">
-      <img src="https://bulma.io/images/placeholders/600x480.png">
-      <figcaption>Légende 2</figcaption>
+      <img :src="src.map">
+      <figcaption>Image sur la map</figcaption>
     </figure>
 
   </div>
@@ -34,16 +34,39 @@ export default {
   components: {},
   data () {
     return {
+      src: {
+        'profile': '',
+        'map': ''
+      },
       personnage: {},
       personnageId: this.$route.params.id
     }
   },
   methods: {
+    loadImages (imagePath) {
+      this.$http.get(`http://localhost:3000/api/images/${imagePath}/${this.personnageId}/jpg`).then(response => {
+        if (response.body.length) {
+          console.log(imagePath)
+          this.src[imagePath] = response.url
+        } else {
+          this.src[imagePath] = 'https://bulma.io/images/placeholders/1280x960.png'
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   },
   created () {
     this.$http.get(`http://localhost:3000/api/characters/${this.personnageId}`).then((response) => {
       this.personnage = JSON.parse(response.bodyText)
     })
+  },
+  mounted () {
+    const imageSrcArrays = Object.keys(this.src)
+    console.log(imageSrcArrays)
+    for (let i = 0; i < imageSrcArrays.length; i++) {
+      this.loadImages(imageSrcArrays[i])
+    }
   }
 }
 </script>

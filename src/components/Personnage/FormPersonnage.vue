@@ -2,6 +2,7 @@
   <form enctype="multipart/form-data" ref="formAddPersonnage" id="formAddPersonnage" method="post" @submit.prevent="addPersonnage">
     <h2 v-if="isEdit">Modifier le personnage avec l'id {{$route.params.id}}</h2>
     <h2 v-else>Créer un personnage</h2>
+
     <div class="columns">
        <button :class="'column notification-'+state" v-if="errors.hasError" >Les modifications n'ont pas été sauvegardées. Veuillez ré-essayer plus tard.</button>
     </div>
@@ -14,8 +15,8 @@
     </div>
 
     <div class="columns">
-      <file-upload class="file-input" :preview="true" :name="'profile'" :accept="'image/*'" :titlePreview="'Image de fiche personnage'" :index="0" @isLoaded="handleFile"></file-upload>
-      <file-upload class="file-input" :preview="true" :name="'map'" :accept="'image/*'" :titlePreview="'Image personnage sur lieux'" :index="1" @isLoaded="handleFile"></file-upload>
+      <file-upload class="file-input" :preview="true" :name="'profile'" :accept="'image/*'" :titlePreview="'Image de fiche personnage'" :index="0" @isLoaded="handleFile"/>
+      <file-upload class="file-input" :preview="true" :name="'map'" :accept="'image/*'" :titlePreview="'Image personnage sur lieux'" :index="1" @isLoaded="handleFile"/>
     </div>
 
     <div class="field">
@@ -112,7 +113,7 @@ export default {
         })
       }
     },
-    handleFile(obj) {
+    handleFile (obj) {
       this.personnage.files[obj.index] = obj.file
     }
   },

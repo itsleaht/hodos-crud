@@ -8,7 +8,7 @@
     <tr v-for="(value, key, index) in chapter" :key="index">
       <th>{{ key }}</th>
       <td v-if="Array.isArray(value)">
-        <p v-for="(val, index2) in value" :key="index2"> {{val}} /</p>
+        <p v-for="(val, index2) in value" :key="index2" v-html="val.replace('\n','<br>')"></p>
       </td>
       <td v-else>{{ value }}</td>
     </tr>
@@ -19,13 +19,12 @@
 </template>
 
 <script>
-import chapters from './chapitres'
 export default {
   name: 'view-chapter',
   components: {},
   data () {
     return {
-      chapters,
+      chapters: [],
       chapter: {},
       chapterId: this.$route.params.id
     }
@@ -33,7 +32,6 @@ export default {
   methods: {
   },
   created () {
-    this.chapter = this.chapters[0]
     this.$http.get(`http://localhost:3000/api/chapters/${this.chapterId}`).then((response) => {
       this.chapter = JSON.parse(response.bodyText)
     })
@@ -46,6 +44,16 @@ export default {
   table {
     margin: 0 auto;
     min-width: 800px;
+    tr {
+      th {
+        max-width: 40px;
+      }
+      td {
+        p {
+          margin: 15px 0;
+        }
+      }
+    }
   }
 
 </style>

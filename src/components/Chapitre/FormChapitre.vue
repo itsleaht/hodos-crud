@@ -47,8 +47,9 @@
     <div class="field">
       <label class="label">Blocs de texte</label>
       <div class="control">
-        <textarea class="textarea" name="textBlocks" placeholder="Bloc de texte" v-model="chapitre.textBlocks"></textarea>
+        <textarea class="textarea" name="textBlocks" placeholder="Bloc de texte" rows="15" v-model="chapitre.textBlocks"></textarea>
       </div>
+      <p class="info">Pour créer un noueau bloc de texte faire 2 sauts de lignes, et pour créer un paragraphe à l'intérireur d'un bloc de texte, faire un seul retour à la ligne</p>
     </div>
 
     <!--
@@ -99,7 +100,7 @@ export default {
   methods: {
     addChapitre () {
       const chapitre = this.chapitre
-      chapitre.textBlocks = chapitre.textBlocks.split('#')
+      chapitre.textBlocks = chapitre.textBlocks.split('\n\n')
       console.log(chapitre.textBlocks)
 
       if (this.isEdit) {
@@ -119,6 +120,16 @@ export default {
           this.state = 1
         })
       }
+    },
+    arrayToString (arr, separator) {
+      let str = ''
+      arr.forEach(function (i, index) {
+        str += i
+        if (index !== (arr.length - 1)) {
+          str += separator
+        }
+      })
+      return str
     }
   },
   mounted () {
@@ -127,6 +138,7 @@ export default {
 
       this.$http.get('http://localhost:3000/api/chapters/' + this.chapitreId).then((response) => {
         this.chapitre = JSON.parse(response.bodyText)
+        this.chapitre.textBlocks = this.arrayToString(this.chapitre.textBlocks, '\n\n')
       }, (response) => {
         this.hasError = true
         this.state = 1
@@ -137,19 +149,24 @@ export default {
 </script>
 
 <style lang="scss">
-
   form {
-      width: 500px;
-      margin: 50px auto;
-      text-align: left;
+    width: 600px;
+    margin: 50px auto;
+    text-align: left;
 
-      .column {
-        border: none;
-        box-shadow: none;
-      }
-
-      .select {
-        margin-bottom: 100px;
-      }
+    .column {
+      border: none;
+      box-shadow: none;
     }
+
+    .select {
+      margin-bottom: 100px;
+    }
+
+    .info {
+      font-size: 14px;
+      color: #717171;
+      margin: 15px 0 35px 0;
+    }
+  }
 </style>

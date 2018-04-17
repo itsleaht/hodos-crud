@@ -70,7 +70,6 @@ export default {
     this.$http.get('http://localhost:3000/api/chapters').then((response) => {
       this.chapitres = JSON.parse(response.bodyText)
     })
-    this.chapitres = Chapitres
   }
 }
 </script>

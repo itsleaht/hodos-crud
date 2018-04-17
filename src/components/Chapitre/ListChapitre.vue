@@ -5,24 +5,24 @@
       <thead>
       <tr>
         <th>ID</th>
-        <th>NumberInt</th>
-        <th>Name</th>
+        <th>N° Chapitre</th>
+        <th>Titre</th>
         <th>Actions</th>
       </tr>
       </thead>
       <tfoot>
       <tr>
         <th>ID</th>
-        <th>NumberInt</th>
-        <th>Name</th>
+        <th>N° Chapitre</th>
+        <th>Titre</th>
         <th>Actions</th>
       </tr>
       </tfoot>
       <tbody>
       <tr v-for="chapitre in chapitres" :key="chapitre.id">
         <th>{{chapitre.id}}</th>
-        <td>{{chapitre.NumberInt}}</td>
-        <td>{{chapitre.Name}}</td>
+        <td>Chapitre {{chapitre.numberInt}}</td>
+        <td>{{chapitre.title}}</td>
         <td>
           <router-link :to="{name: 'viewChapitre', params: {id: chapitre.id} }" class="button is-info">
               <span class="icon is-small">
@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import Chapitres from './chapitres'
 export default {
   name: 'list-chapitre',
   data () {
@@ -59,22 +58,18 @@ export default {
     }
   },
   methods: {
-    /*
     deleteAlert (id) {
-      if (confirm('Êtes-vous sûr de vouloir supprimer ce personnage ?')) {
-        this.$http.delete('http://localhost:3000/api/chapitres/delete/' + id).then((response) => {
-          this.personnages = JSON.parse(response.bodyText)
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce chapitre ?')) {
+        this.$http.delete('http://localhost:3000/api/chapters/delete/' + id).then((response) => {
+          this.chapitres = JSON.parse(response.bodyText)
         })
       }
     }
-    */
   },
   created () {
-    /*
-   his.$http.get('http://localhost:3000/api/lieux').then((response) => {
+    this.$http.get('http://localhost:3000/api/chapters').then((response) => {
       this.chapitres = JSON.parse(response.bodyText)
     })
-    */
     this.chapitres = Chapitres
   }
 }

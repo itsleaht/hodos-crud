@@ -8,7 +8,7 @@
     <tr v-for="(value, key, index) in chapter" :key="index">
       <th>{{ key }}</th>
       <td v-if="Array.isArray(value)">
-        <span v-for="(val, index2) in value" :key="index2"> {{val}} /</span>
+        <p v-for="(val, index2) in value" :key="index2"> {{val}} /</p>
       </td>
       <td v-else>{{ value }}</td>
     </tr>
@@ -34,9 +34,9 @@ export default {
   },
   created () {
     this.chapter = this.chapters[0]
-   /* this.$http.get(`http://localhost:3000/api/places/${this.lieuId}`).then((response) => {
+    this.$http.get(`http://localhost:3000/api/chapters/${this.chapterId}`).then((response) => {
       this.chapter = JSON.parse(response.bodyText)
-    })*/
+    })
   }
 }
 </script>

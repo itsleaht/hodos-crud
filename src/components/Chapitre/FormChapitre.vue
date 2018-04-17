@@ -12,7 +12,7 @@
     <div class="field">
       <label class="label">Nom</label>
       <div class="control">
-        <input class="input" type="text" name="name" placeholder="Un nom" v-model="chapitre.name">
+        <input class="input" type="text" name="title" placeholder="Un nom" v-model="chapitre.title">
       </div>
     </div>
 
@@ -84,7 +84,7 @@ export default {
       isEdit: this.$route.name === 'editChapitre',
       chapitre: {
         id: null,
-        name: null,
+        title: null,
         numberInt: null,
         numberRoman: null,
         beginText: null,
@@ -102,38 +102,35 @@ export default {
       chapitre.textBlocks = chapitre.textBlocks.split('#')
       console.log(chapitre.textBlocks)
 
-      /*if (this.isEdit) {
-        this.$http.patch('http://localhost:3000/api/chapters/edit/' + this.lieuId, this.lieu).then((response) => {
-          this.$router.push({path: `/lieux/list`})
-        }, (response) => {
-          console.log('error', response)
-          this.hasError = true
-          this.state = 1
-        }
-        )
-      } else {
-        this.$http.post('http://localhost:3000/api/lieux/create', this.lieu).then((response) => {
-          this.$router.push({path: '/lieux/list'})
+      if (this.isEdit) {
+        this.$http.patch('http://localhost:3000/api/chapters/edit/' + this.chapitreId, chapitre).then((response) => {
+          this.$router.push({path: `/chapitre/list`})
         }, (response) => {
           console.log('error', response)
           this.hasError = true
           this.state = 1
         })
-      }*/
+      } else {
+        this.$http.post('http://localhost:3000/api/chapters/create', chapitre).then((response) => {
+          this.$router.push({path: '/chapitre/list'})
+        }, (response) => {
+          console.log('error', response)
+          this.hasError = true
+          this.state = 1
+        })
+      }
     }
   },
   mounted () {
     if (this.isEdit) {
       this.chapitreId = this.isEdit ? this.$route.params.id : null
 
-      /*
-      this.$http.get('http://localhost:3000/api/lieux/' + this.chapitreId).then((response) => {
-              this.chapitre = JSON.parse(response.bodyText)
-            }, (response) => {
-              this.hasError = true
-              this.state = 1
-            })
-            */
+      this.$http.get('http://localhost:3000/api/chapters/' + this.chapitreId).then((response) => {
+        this.chapitre = JSON.parse(response.bodyText)
+      }, (response) => {
+        this.hasError = true
+        this.state = 1
+      })
     }
   }
 }

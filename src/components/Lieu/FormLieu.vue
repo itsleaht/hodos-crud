@@ -1,38 +1,39 @@
 <template>
    <form @submit.prevent="addLieu">
-    <h2 v-if="isEdit">Modifier un lieu avec l'ID {{$route.params.id}}</h2>
-    <h2 v-else>Créer un lieu</h2>
-    <div class="columns">
-    <button :class="'column notification-'+state" v-if="hasError" >Les modifications n'ont pas été sauvegardées. Veuillez ré-essayer plus tard.</button>
-    </div>
+     <h2 v-if="isEdit">Modifier un lieu avec l'ID {{$route.params.id}}</h2>
+     <h2 v-else>Créer un lieu</h2>
+     <div class="columns">
+       <button :class="'column notification-'+state" v-if="hasError">Les modifications n'ont pas été sauvegardées.
+         Veuillez ré-essayer plus tard.
+       </button>
+     </div>
 
-      <div class="field">
-        <label class="label">Nom </label>
-        <div class="control">
-          <input class="input" type="text" placeholder="Ex : Mont Parnasse" v-model="lieu.name">
-        </div>
-      </div>
+     <div class="field">
+       <label class="label">Nom </label>
+       <div class="control">
+         <input class="input" type="text" placeholder="Ex : Mont Parnasse" v-model="lieu.name">
+       </div>
+     </div>
 
-      <div class="field">
-        <label class="label">Chapitres concernés</label>
-        <div class="control">
-          <div class="select">
-            <select multiple v-model="lieu.chapters">
-              <option v-for="chapter in 100" :key="'lieu_'+chapter" :value="chapter"> Chapitre {{chapter}} </option>
-            </select>
-          </div>
-        </div>
-      </div>
+     <div class="field">
+       <label class="label">Chapitres concernés</label>
+       <div class="control">
+         <div class="select">
+           <select multiple v-model="lieu.chapters">
+             <option v-for="chapter in 100" :key="'lieu_'+chapter" :value="chapter"> Chapitre {{chapter}}</option>
+           </select>
+         </div>
+       </div>
+     </div>
 
-      <div class="field is-grouped">
-        <div class="control">
-          <button class="button is-link">Sauvegarder</button>
-        </div>
-        <div class="control">
-          <a @click="$router.go(-1)" class="button is-text">Annuler</a>
-        </div>
-      </div>
-
+     <div class="field is-grouped">
+       <div class="control">
+         <button class="button is-link">Sauvegarder</button>
+       </div>
+       <div class="control">
+         <a @click="$router.go(-1)" class="button is-text">Annuler</a>
+       </div>
+     </div>
   </form>
 </template>
 

@@ -2,6 +2,18 @@
 <div id="view-personnage">
   <h2>Vue du personnage avec l'id {{ $route.params.id }}</h2>
 
+  <div class="images">
+    <figure class="image">
+      <img src="https://bulma.io/images/placeholders/256x256.png">
+      <figcaption>Légende 1</figcaption>
+    </figure>
+    <figure class="image">
+      <img src="https://bulma.io/images/placeholders/600x480.png">
+      <figcaption>Légende 2</figcaption>
+    </figure>
+
+  </div>
+
   <table class="table">
     <tr v-for="(value, key, index) in personnage" :key="index">
       <th>{{ key }}</th>
@@ -12,9 +24,6 @@
     </tr>
   </table>
 
-  <pre>
-    {{personnage}}
-  </pre>
 </div>
 </template>
 
@@ -40,8 +49,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+
+    > figure {
+      margin: 15px;
+      max-width: 350px;
+    }
+  }
+
   table {
     margin: 0 auto;
-    min-width: 800px;
+    width: 100%;
   }
 </style>

@@ -1,21 +1,21 @@
 <template>
-  <form @submit.prevent="addPersonnage">
+  <form enctype="multipart/form-data" action="http://localhost:3000/api/characters/create" ref="addPersonnage" id="addPersonnage" method="post" @submmit.prevent="addPersonnage">
     <h2 v-if="isEdit">Modifier le personnage avec l'id {{$route.params.id}}</h2>
     <h2 v-else>Créer un personnage</h2>
     <div class="columns">
-       <button :class="'column notification-'+state" v-if="hasError" >Les modifications n'ont pas été sauvegardées. Veuillez ré-essayer plus tard.</button>
-    </div>
-
-    <div class="columns">
-      <file-upload class="file-input" :preview="true" :name="'perso-image'" :accept="'image/*'" :titlePreview="'Image de fiche personnage'"></file-upload>
-      <file-upload class="file-input" :preview="true" :name="'lieu-image'" :accept="'image/*'" :titlePreview="'Image personnage sur lieux'"></file-upload>
+       <button :class="'column notification-'+state" v-if="errors.hasError" >Les modifications n'ont pas été sauvegardées. Veuillez ré-essayer plus tard.</button>
     </div>
 
     <div class="field">
       <label class="label">Nom </label>
       <div class="control">
-        <input class="input" type="text" name="name" v-model="personnage.name" placeholder="Ex : Hermès">
+        <input class="input" type="text" name="name" v-model="personnage.name" placeholder="Ex : Hermès" required>
       </div>
+    </div>
+
+    <div class="columns">
+      <file-upload class="file-input" :preview="true" :name="'persoImage'" :accept="'image/*'" :titlePreview="'Image de fiche personnage'" :index="0" @isLoaded="handleFile" v-model="personnage.test"></file-upload>
+      <file-upload class="file-input" :preview="true" :name="'lieuImage'" :accept="'image/*'" :titlePreview="'Image personnage sur lieux'" :index="1" @isLoaded="handleFile"></file-upload>
     </div>
 
     <div class="field">
@@ -36,7 +36,7 @@
       <label class="label">Lieu de rencontre</label>
       <div class="control">
         <div class="select">
-          <select v-model="personnage.place">
+          <select v-model="personnage.place" name="place">
             <option v-for="(lieu, index) in lieux" :key="'lieu_'+index" :value="lieu.id">{{lieu.id}} - {{lieu.name}}</option>
           </select>
         </div>
@@ -65,6 +65,7 @@
         <a @click="$router.go(-1)" class="button is-text">Annuler</a>
       </div>
     </div>
+    <button :class="'column notification-1'" v-if="errors.hasLoadingError" >Veuillez attendre la fin du chargement de l'image et recommencer l'envoi.</button>
   </form>
 </template>
 
@@ -75,18 +76,23 @@ export default {
   components: {fileUpload},
   data () {
     return {
-      personnage: {},
+      personnage: {
+        files: []
+      },
       isEdit: this.$route.name === 'editPersonnage',
       personnageId: null,
       lieux: [],
       state: null,
-      hasError: false
+      errors: {
+        submitError: false,
+        hasLoadingError: false
+      }
     }
   },
   methods: {
     addPersonnage () {
       if (this.isEdit) {
-        this.$http.patch('http://localhost:3000/api/personnages/edit/' + this.personnageId, this.personnage).then((response) => {
+        this.$http.patch('http://localhost:3000/api/characters/edit/' + this.personnageId, this.personnage).then((response) => {
           this.$router.push({path: `/personnages/list`})
         }, (response) => {
           console.log('error', response)
@@ -95,25 +101,31 @@ export default {
         }
         )
       } else {
-        this.$http.post('http://localhost:3000/api/personnages/create', this.personnage).then((response) => {
-          this.$router.push({path: `/personnages/list`})
-        }, (response) => {
-          console.log('error', response)
-          this.hasError = true
-          this.state = 1
-        }
-        )
+        this.$refs.addPersonnage.submit()
+        return false
+        // console.log('sent personnage', this.personnage)
+        // this.$http.post('http://localhost:3000/api/characters/create', this.personnage).then((response) => {
+        //   console.log('response to API CALL', response)
+        //   // this.$router.push({path: `/personnages/list`})
+        // }, (response) => {
+        //   console.log('error', response)
+        //   this.hasError = true
+        //   this.state = 1
+        // })
       }
+    },
+    handleFile(obj) {
+      this.personnage.files[obj.index] = obj.file
     }
   },
   mounted () {
-    this.$http.get('http://localhost:3000/api/lieux').then((response) => {
+    this.$http.get('http://localhost:3000/api/places').then((response) => {
       this.lieux = JSON.parse(response.bodyText)
     })
 
     if (this.isEdit) {
       this.personnageId = this.isEdit ? this.$route.params.id : null
-      this.$http.get('http://localhost:3000/api/personnages/' + this.personnageId).then((response) => {
+      this.$http.get('http://localhost:3000/api/characters/' + this.personnageId).then((response) => {
         this.personnage = JSON.parse(response.bodyText)
       })
     }

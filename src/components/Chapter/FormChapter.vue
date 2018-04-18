@@ -92,7 +92,7 @@ export default {
 
       if (this.isEdit) {
         this.$http.patch(`${this.$API_URL}/api/chapters/edit/${this.chapterId}`, chapter).then((response) => {
-          this.$router.push({path: `/chapitre/list`})
+          this.$router.push({name: 'listChapter'})
         }, (response) => {
           console.log('error', response)
           this.hasError = true
@@ -100,7 +100,7 @@ export default {
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/chapters/create`, chapter).then((response) => {
-          this.$router.push({path: '/chapitre/list'})
+          this.$router.push({name: 'listChapter'})
         }, (response) => {
           console.log('error', response)
           this.hasError = true

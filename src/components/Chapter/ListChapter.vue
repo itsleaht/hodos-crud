@@ -1,5 +1,5 @@
 <template>
-  <div class="list-chapitre">
+  <div class="list-chapter">
     <h2>Liste des Chapitres</h2>
     <table class="table">
       <thead>
@@ -67,7 +67,6 @@ export default {
     }
   },
   created () {
-    console.log(process.env.API_URL)
     this.$http.get(`${this.$API_URL}/api/chapters`).then((response) => {
       this.chapters = JSON.parse(response.bodyText)
     })

@@ -1,5 +1,5 @@
 <template>
-<div id="view-personnage">
+<div id="view-character">
   <h2>Vue du personnage avec l'id {{ $route.params.id }}</h2>
 
   <div class="images">
@@ -15,7 +15,7 @@
   </div>
 
   <table class="table">
-    <tr v-for="(value, key, index) in personnage" :key="index">
+    <tr v-for="(value, key, index) in character" :key="index">
       <th>{{ key }}</th>
       <td v-if="Array.isArray(value)">
         <span v-for="(val, index2) in value" :key="index2"> {{val}} /</span>
@@ -30,7 +30,7 @@
 <script>
 
 export default {
-  name: 'view-personnage',
+  name: 'view-character',
   components: {},
   data () {
     return {
@@ -38,13 +38,13 @@ export default {
         'profile': '',
         'map': ''
       },
-      personnage: {},
-      personnageId: this.$route.params.id
+      character: {},
+      characterId: this.$route.params.id
     }
   },
   methods: {
     loadImages (imagePath) {
-      this.$http.get(`${this.$API_URL}/api/images/${imagePath}/${this.personnageId}/jpg`).then(response => {
+      this.$http.get(`${this.$API_URL}/api/images/${imagePath}/${this.characterId}/jpg`).then(response => {
         if (response.body.length) {
           console.log(imagePath)
           this.src[imagePath] = response.url
@@ -57,8 +57,8 @@ export default {
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/characters/${this.personnageId}`).then((response) => {
-      this.personnage = JSON.parse(response.bodyText)
+    this.$http.get(`${this.$API_URL}/api/characters/${this.characterId}`).then((response) => {
+      this.character = JSON.parse(response.bodyText)
     })
   },
   mounted () {

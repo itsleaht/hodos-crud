@@ -97,7 +97,7 @@ export default {
 
       if (this.isEdit) {
         this.$http.patch(`${this.$API_URL}/api/characters/edit/${this.characterId}`, formData).then((response) => {
-          this.$router.push({path: `/personnages/list`})
+          this.$router.push({name: 'listCharacter'})
         }, (response) => {
           console.log('error', response)
           this.hasError = true
@@ -105,7 +105,7 @@ export default {
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/characters/create`, formData).then((response) => {
-          this.$router.push({path: `/personnages/list`})
+          this.$router.push({name: 'listCharacter'})
         }, (response) => {
           console.log('error', response)
           this.hasError = true

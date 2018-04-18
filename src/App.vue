@@ -4,19 +4,19 @@
     <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
       <div class="navbar-menu">
         <div class="navbar-start">
-          <router-link :to="{name:'listPersonnage'}" class="navbar-item">
+          <router-link :to="{name:'listCharacter'}" class="navbar-item">
            <span>Personnages</span>
             <span class="icon is-small">
                 <i class="fas fa-user"></i>
             </span>
           </router-link>
-          <router-link :to="{name:'listLieu'}" class="navbar-item">
+          <router-link :to="{name:'listPlace'}" class="navbar-item">
             <span>Lieux</span>
             <span class="icon is-small">
                 <i class="fas fa-map-marker"></i>
             </span>
           </router-link>
-          <router-link :to="{name:'listChapitre'}" class="navbar-item">
+          <router-link :to="{name:'listChapter'}" class="navbar-item">
             <span>Chapitre</span>
             <span class="icon is-small">
                 <i class="fas fa-bookmark"></i>
@@ -24,19 +24,19 @@
           </router-link>
         </div>
         <div class="navbar-end">
-          <router-link :to="{name:'createPersonnage'}" class="navbar-item">
+          <router-link :to="{name:'createCharacter'}" class="navbar-item">
             <span>Ajouter Personnage</span>
             <span class="icon is-small">
                 <i class="fas fa-plus-circle"></i>
             </span>
           </router-link>
-          <router-link :to="{name:'createLieu'}" class="navbar-item">
+          <router-link :to="{name:'createPlace'}" class="navbar-item">
             <span>Ajouter Lieux</span>
             <span class="icon is-small">
                 <i class="fas fa-plus-circle"></i>
             </span>
           </router-link>
-          <router-link :to="{name:'createChapitre'}" class="navbar-item">
+          <router-link :to="{name:'createChapter'}" class="navbar-item">
             <span>Ajouter Chapitre</span>
             <span class="icon is-small">
                 <i class="fas fa-plus-circle"></i>

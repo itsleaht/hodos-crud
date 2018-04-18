@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Personnage from '../components/Personnage/Personnage'
-import FormPersonnage from '../components/Personnage/FormPersonnage'
-import ListPersonnage from '../components/Personnage/ListPersonnage'
-import Lieu from '../components/Lieu/Lieu'
-import FormLieu from '../components/Lieu/FormLieu'
-import ListLieu from '../components/Lieu/ListLieu'
-import ViewPersonnage from '../components/Personnage/ViewPersonnage'
-import ViewLieu from '../components/Lieu/ViewLieu'
-import Chapitre from '../components/Chapitre/Chapitre'
-import ListChapitre from '../components/Chapitre/ListChapitre'
-import FormChapitre from '../components/Chapitre/FormChapitre'
-import ViewChapter from '../components/Chapitre/ViewChapter'
+// Character
+import Character from '../components/Character/Character'
+import FormCharacter from '../components/Character/FormCharacter'
+import ListCharacter from '../components/Character/ListCharacter'
+import ViewCharacter from '../components/Character/ViewCharacter'
+// Place
+import Place from '../components/Place/Place'
+import FormPlace from '../components/Place/FormPlace'
+import ListPlace from '../components/Place/ListPlace'
+import ViewPlace from '../components/Place/ViewPlace'
+// Chapter
+import Chapter from '../components/Chapter/Chapter'
+import ListChapter from '../components/Chapter/ListChapter'
+import FormChapter from '../components/Chapter/FormChapter'
+import ViewChapter from '../components/Chapter/ViewChapter'
 
 Vue.use(Router)
 
@@ -21,86 +24,86 @@ export default new Router({
     {
       path: '/',
       redirect: {
-        name: 'listPersonnage'
+        name: 'listCharacter'
       }
     },
     {
       path: '/personnages',
-      name: 'personnages',
-      component: Personnage,
+      name: 'characters',
+      component: Character,
       children: [
         {
           path: 'list',
-          name: 'listPersonnage',
-          component: ListPersonnage
+          name: 'listCharacter',
+          component: ListCharacter
         },
         {
           path: 'create',
-          name: 'createPersonnage',
-          component: FormPersonnage
+          name: 'createCharacter',
+          component: FormCharacter
         },
         {
           path: 'edit/:id',
-          name: 'editPersonnage',
-          component: FormPersonnage
+          name: 'editCharacter',
+          component: FormCharacter
         },
         {
           path: 'view/:id',
-          name: 'viewPersonnage',
-          component: ViewPersonnage
+          name: 'viewCharacter',
+          component: ViewCharacter
         }
       ]
     },
     {
       path: '/lieux',
-      name: 'lieux',
-      component: Lieu,
+      name: 'place',
+      component: Place,
       children: [
         {
           path: 'list',
-          name: 'listLieu',
-          component: ListLieu
+          name: 'listPlace',
+          component: ListPlace
         },
         {
           path: 'create',
-          name: 'createLieu',
-          component: FormLieu
+          name: 'createPlace',
+          component: FormPlace
         },
         {
           path: 'edit/:id',
-          name: 'editLieu',
-          component: FormLieu
+          name: 'editPlace',
+          component: FormPlace
         },
         {
           path: 'view/:id',
-          name: 'viewLieu',
-          component: ViewLieu
+          name: 'viewPlace',
+          component: ViewPlace
         }
       ]
     },
     {
       path: '/chapitre',
-      name: 'chapitre',
-      component: Chapitre,
+      name: 'chapter',
+      component: Chapter,
       children: [
         {
           path: 'list',
-          name: 'listChapitre',
-          component: ListChapitre
+          name: 'listChapter',
+          component: ListChapter
         },
         {
           path: 'create',
-          name: 'createChapitre',
-          component: FormChapitre
+          name: 'createChapter',
+          component: FormChapter
         },
         {
           path: 'edit/:id',
-          name: 'editChapitre',
-          component: FormChapitre
+          name: 'editChapter',
+          component: FormChapter
         },
         {
           path: 'view/:id',
-          name: 'viewChapitre',
+          name: 'viewChapter',
           component: ViewChapter
         }
       ]

@@ -24,13 +24,13 @@
           <td>{{personnage.name}}</td>
           <td>{{personnage.role}}</td>
           <td>
-            <router-link :to="{name: 'viewPersonnage', params: {id: personnage.id} }" class="button is-info">
+            <router-link :to="{name: 'viewCharacter', params: {id: personnage.id} }" class="button is-info">
               <span class="icon is-small">
                 <i class="fas fa-eye"></i>
               </span>
               <span>Voir</span>
             </router-link>
-            <router-link :to="{ name: 'editPersonnage', params: { id: personnage.id }}" class="button is-warning">
+            <router-link :to="{ name: 'editCharacter', params: { id: personnage.id }}" class="button is-warning">
               <span class="icon is-small">
                 <i class="fas fa-edit"></i>
               </span>

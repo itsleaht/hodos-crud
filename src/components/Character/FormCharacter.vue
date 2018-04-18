@@ -1,5 +1,5 @@
 <template>
-  <form enctype="multipart/form-data" ref="formAddPersonnage" id="formAddPersonnage" method="post" @submit.prevent="addPersonnage">
+  <form enctype="multipart/form-data" ref="formAddPersonnage" id="formAddPersonnage" method="post" @submit.prevent="addCharacter">
     <h2 v-if="isEdit">Modifier le personnage avec l'id {{$route.params.id}}</h2>
     <h2 v-else>Créer un personnage</h2>
 
@@ -8,9 +8,9 @@
     </div>
 
     <div class="field">
-      <label class="label">Nom </label>
+      <label class="label">Nom</label>
       <div class="control">
-        <input class="input" type="text" name="name" v-model="personnage.name" placeholder="Ex : Hermès" required>
+        <input class="input" type="text" name="name" v-model="character.name" placeholder="Ex : Hermès" required>
       </div>
     </div>
 
@@ -22,14 +22,14 @@
     <div class="field">
       <label class="label">Type</label>
       <div class="control">
-        <input class="input" type="text" name="type" v-model="personnage.type" placeholder="Ex : Dieu">
+        <input class="input" type="text" name="type" v-model="character.type" placeholder="Ex : Dieu">
       </div>
     </div>
 
     <div class="field">
       <label class="label">Rôle</label>
       <div class="control">
-        <input class="input" type="text" name="role" v-model="personnage.role" placeholder="Ex : Guide les âmes perdus / Dieu de la mer ">
+        <input class="input" type="text" name="role" v-model="character.role" placeholder="Ex : Guide les âmes perdus / Dieu de la mer ">
       </div>
     </div>
 
@@ -37,7 +37,7 @@
       <label class="label">Lieu de rencontre</label>
       <div class="control">
         <div class="select">
-          <select v-model="personnage.place" name="place">
+          <select v-model="character.place" name="place">
             <option v-for="(lieu, index) in lieux" :key="'lieu_'+index" :value="lieu.id">{{lieu.id}} - {{lieu.name}}</option>
           </select>
         </div>
@@ -47,14 +47,14 @@
     <div class="field">
       <label class="label">Description</label>
       <div class="control">
-        <textarea class="textarea" name="description" placeholder="Hermès est le personnage principal de l'histoire." v-model="personnage.description"></textarea>
+        <textarea class="textarea" name="description" placeholder="Hermès est le personnage principal de l'histoire." v-model="character.description"></textarea>
       </div>
     </div>
 
     <div class="field">
       <label class="label">Liens de parenté</label>
       <div class="control">
-        <textarea class="textarea" name="family" placeholder="Hermès est le fils de Maia et Zeus." v-model="personnage.family"></textarea>
+        <textarea class="textarea" name="family" placeholder="Hermès est le fils de Maia et Zeus." v-model="character.family"></textarea>
       </div>
     </div>
 
@@ -73,15 +73,15 @@
 <script>
 import fileUpload from '@/components/fileUpload'
 export default {
-  name: 'form-personnage',
+  name: 'form-character',
   components: {fileUpload},
   data () {
     return {
-      personnage: {
+      character: {
         files: []
       },
-      isEdit: this.$route.name === 'editPersonnage',
-      personnageId: null,
+      isEdit: this.$route.name === 'editCharacter',
+      characterId: null,
       lieux: [],
       state: null,
       errors: {
@@ -91,12 +91,12 @@ export default {
     }
   },
   methods: {
-    addPersonnage () {
+    addCharacter () {
       const form = document.querySelector('form')
       const formData = new FormData(form)
 
       if (this.isEdit) {
-        this.$http.patch(`${this.$API_URL}/api/characters/edit/${this.personnageId}`, formData).then((response) => {
+        this.$http.patch(`${this.$API_URL}/api/characters/edit/${this.characterId}`, formData).then((response) => {
           this.$router.push({path: `/personnages/list`})
         }, (response) => {
           console.log('error', response)
@@ -114,7 +114,7 @@ export default {
       }
     },
     handleFile (obj) {
-      this.personnage.files[obj.index] = obj.file
+      this.character.files[obj.index] = obj.file
     }
   },
   mounted () {
@@ -123,9 +123,9 @@ export default {
     })
 
     if (this.isEdit) {
-      this.personnageId = this.isEdit ? this.$route.params.id : null
-      this.$http.get('http://localhost:3000/api/characters/' + this.personnageId).then((response) => {
-        this.personnage = JSON.parse(response.bodyText)
+      this.characterId = this.isEdit ? this.$route.params.id : null
+      this.$http.get('http://localhost:3000/api/characters/' + this.characterId).then((response) => {
+        this.character = JSON.parse(response.bodyText)
       })
     }
   }

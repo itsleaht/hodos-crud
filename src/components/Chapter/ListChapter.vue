@@ -1,39 +1,42 @@
 <template>
-  <div class="list-lieu">
-    <h2>Liste de lieux</h2>
+  <div class="list-chapitre">
+    <h2>Liste des Chapitres</h2>
     <table class="table">
       <thead>
       <tr>
         <th>ID</th>
-        <th>Nom</th>
+        <th>N° Chapitre</th>
+        <th>Titre</th>
         <th>Actions</th>
       </tr>
       </thead>
       <tfoot>
       <tr>
         <th>ID</th>
-        <th>Nom</th>
+        <th>N° Chapitre</th>
+        <th>Titre</th>
         <th>Actions</th>
       </tr>
       </tfoot>
       <tbody>
-      <tr v-for="lieu in lieux" :key="lieu.id">
-        <th>{{lieu.id}}</th>
-        <td>{{lieu.name}}</td>
+      <tr v-for="chapter in chapters" :key="chapter.id">
+        <th>{{chapter.id}}</th>
+        <td>Chapitre {{chapter.numberInt}}</td>
+        <td>{{chapter.title}}</td>
         <td>
-          <router-link :to="{name: 'viewLieu', params: {id: lieu.id} }" class="button is-info">
+          <router-link :to="{name: 'viewChapter', params: {id: chapter.id} }" class="button is-info">
               <span class="icon is-small">
                 <i class="fas fa-eye"></i>
               </span>
             <span>Voir</span>
           </router-link>
-          <router-link :to="{ name: 'editLieu', params: { id: lieu.id }}" class="button is-warning">
+          <router-link :to="{ name: 'editChapter', params: { id: chapter.id }}" class="button is-warning">
               <span class="icon is-small">
                 <i class="fas fa-edit"></i>
               </span>
             <span>Modifier</span>
           </router-link>
-          <a class="button is-danger" @click="deleteAlert(lieu.id)">
+          <a class="button is-danger" @click="deleteAlert(chapter.id)">
               <span class="icon is-small">
                 <i class="fas fa-trash"></i>
               </span>
@@ -48,24 +51,25 @@
 
 <script>
 export default {
-  name: 'list-lieu',
+  name: 'list-chapter',
   data () {
     return {
-      lieux: []
+      chapters: []
     }
   },
   methods: {
     deleteAlert (id) {
-      if (confirm('Êtes-vous sûr de vouloir supprimer ce personnage ?')) {
-        this.$http.delete(`${this.$API_URL}/api/places/delete/${id}`).then((response) => {
-          this.personnages = JSON.parse(response.bodyText)
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce chapitre ?')) {
+        this.$http.delete(`${this.$API_URL}/api/chapters/delete/${id}`).then((response) => {
+          this.chapters = JSON.parse(response.bodyText)
         })
       }
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/places`).then((response) => {
-      this.lieux = JSON.parse(response.bodyText)
+    console.log(process.env.API_URL)
+    this.$http.get(`${this.$API_URL}/api/chapters`).then((response) => {
+      this.chapters = JSON.parse(response.bodyText)
     })
   }
 }

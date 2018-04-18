@@ -45,10 +45,8 @@ export default {
     margin: 0 auto;
     min-width: 800px;
     tr {
-      th {
-        max-width: 40px;
-      }
       td {
+        min-width: 700px;
         p {
           margin: 15px 0;
         }

@@ -4,11 +4,15 @@
 
   <div class="images">
     <figure class="image">
-      <img :src="src.profile">
+      <a :href="src.profile" target="_blank">
+        <img :src="src.profile">
+      </a>
       <figcaption>Image de profil</figcaption>
     </figure>
     <figure class="image">
-      <img :src="src.map">
+      <a :href="src.map" target="_blank">
+        <img :src="src.map">
+      </a>
       <figcaption>Image sur la map</figcaption>
     </figure>
 
@@ -72,20 +76,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .images {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-end;
 
-    > figure {
-      margin: 15px;
-      max-width: 350px;
+  #view-character {
+    margin-bottom: 50px;
+
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-end;
+
+      > figure {
+        margin: 15px;
+        width: 300px;
+
+        img {
+          width: auto;
+          height: 300px;
+          margin: 0 auto;
+        }
+
+        figcaption {
+          color: grey;
+          font-size: 12px;
+          padding: 5px;
+        }
+      }
     }
-  }
 
-  table {
-    margin: 0 auto;
-    width: 100%;
+    table {
+      margin: 0 auto;
+      min-width: 800px;
+    }
   }
 </style>

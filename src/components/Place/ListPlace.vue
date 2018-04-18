@@ -1,6 +1,6 @@
 <template>
-  <div class="list-lieu">
-    <h2>Liste de lieux</h2>
+  <div class="list-place">
+    <h2>Liste des lieux</h2>
     <table class="table">
       <thead>
       <tr>
@@ -17,23 +17,23 @@
       </tr>
       </tfoot>
       <tbody>
-      <tr v-for="lieu in lieux" :key="lieu.id">
-        <th>{{lieu.id}}</th>
-        <td>{{lieu.name}}</td>
+      <tr v-for="place in places" :key="place.id">
+        <th>{{place.id}}</th>
+        <td>{{place.name}}</td>
         <td>
-          <router-link :to="{name: 'viewPlace', params: {id: lieu.id} }" class="button is-info">
+          <router-link :to="{name: 'viewPlace', params: {id: place.id} }" class="button is-info">
               <span class="icon is-small">
                 <i class="fas fa-eye"></i>
               </span>
             <span>Voir</span>
           </router-link>
-          <router-link :to="{ name: 'editPlace', params: { id: lieu.id }}" class="button is-warning">
+          <router-link :to="{ name: 'editPlace', params: { id: place.id }}" class="button is-warning">
               <span class="icon is-small">
                 <i class="fas fa-edit"></i>
               </span>
             <span>Modifier</span>
           </router-link>
-          <a class="button is-danger" @click="deleteAlert(lieu.id)">
+          <a class="button is-danger" @click="deleteAlert(place.id)">
               <span class="icon is-small">
                 <i class="fas fa-trash"></i>
               </span>
@@ -48,10 +48,10 @@
 
 <script>
 export default {
-  name: 'list-lieu',
+  name: 'list-place',
   data () {
     return {
-      lieux: []
+      places: []
     }
   },
   methods: {
@@ -65,7 +65,7 @@ export default {
   },
   created () {
     this.$http.get(`${this.$API_URL}/api/places`).then((response) => {
-      this.lieux = JSON.parse(response.bodyText)
+      this.places = JSON.parse(response.bodyText)
     })
   }
 }

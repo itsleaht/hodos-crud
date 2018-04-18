@@ -1,11 +1,11 @@
 <template>
-<div id="view-lieu">
+<div id="view-place">
 
   <h2>Vue du lieu avec l'id {{ $route.params.id }}</h2>
 
   <table class="table">
     <tbody>
-    <tr v-for="(value, key, index) in lieu" :key="index">
+    <tr v-for="(value, key, index) in place" :key="index">
       <th>{{ key }}</th>
       <td v-if="Array.isArray(value)">
         <span v-for="(val, index2) in value" :key="index2"> {{val}} /</span>
@@ -25,15 +25,15 @@ export default {
   components: {},
   data () {
     return {
-      lieu: {},
-      lieuId: this.$route.params.id
+      place: {},
+      placeId: this.$route.params.id
     }
   },
   methods: {
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/places/${this.lieuId}`).then((response) => {
-      this.lieu = JSON.parse(response.bodyText)
+    this.$http.get(`${this.$API_URL}/api/places/${this.placeId}`).then((response) => {
+      this.place = JSON.parse(response.bodyText)
     })
   }
 }

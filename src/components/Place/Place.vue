@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'lieu'
+  name: 'place'
 }
 </script>

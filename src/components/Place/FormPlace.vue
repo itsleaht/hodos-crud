@@ -1,5 +1,5 @@
 <template>
-   <form @submit.prevent="addLieu">
+   <form @submit.prevent="addPlace">
      <h2 v-if="isEdit">Modifier un lieu avec l'ID {{$route.params.id}}</h2>
      <h2 v-else>Créer un lieu</h2>
      <div class="columns">
@@ -11,7 +11,7 @@
      <div class="field">
        <label class="label">Nom </label>
        <div class="control">
-         <input class="input" type="text" placeholder="Ex : Mont Parnasse" v-model="lieu.name">
+         <input class="input" type="text" placeholder="Ex : Mont Parnasse" v-model="place.name">
        </div>
      </div>
 
@@ -19,8 +19,8 @@
        <label class="label">Chapitres concernés</label>
        <div class="control">
          <div class="select">
-           <select multiple v-model="lieu.chapters">
-             <option v-for="chapter in 100" :key="'lieu_'+chapter" :value="chapter"> Chapitre {{chapter}}</option>
+           <select multiple v-model="place.chapters">
+             <option v-for="chapter in 100" :key="'place_'+chapter" :value="chapter"> Chapitre {{chapter}}</option>
            </select>
          </div>
        </div>
@@ -40,24 +40,24 @@
 <script>
 
 export default {
-  name: 'form-lieu',
+  name: 'form-place',
   data () {
     return {
-      isEdit: this.$route.name === 'editLieu',
-      lieu: {
+      isEdit: this.$route.name === 'editPlace',
+      place: {
         id: null,
         name: null,
         chapters: []
       },
-      lieuId: null,
+      placeId: null,
       state: null,
       hasError: false
     }
   },
   methods: {
-    addLieu () {
+    addPlace () {
       if (this.isEdit) {
-        this.$http.patch(`${this.$API_URL}/api/places/edit/${this.lieuId}`, this.lieu).then((response) => {
+        this.$http.patch(`${this.$API_URL}/api/places/edit/${this.placeId}`, this.place).then((response) => {
           this.$router.push({path: `/lieux/list`})
         }, (response) => {
           console.log('error', response)
@@ -66,8 +66,8 @@ export default {
         }
         )
       } else {
-        this.$http.post(`${this.$API_URL}/api/places/create`, this.lieu).then((response) => {
-          this.$router.push({path: '/lieux/list'})
+        this.$http.post(`${this.$API_URL}/api/places/create`, this.place).then((response) => {
+          this.$router.push({name: 'listPlace'})
         }, (response) => {
           console.log('error', response)
           this.hasError = true
@@ -78,9 +78,9 @@ export default {
   },
   mounted () {
     if (this.isEdit) {
-      this.lieuId = this.isEdit ? this.$route.params.id : null
-      this.$http.get(`${this.$API_URL}/api/places/${this.lieuId}`).then((response) => {
-        this.lieu = JSON.parse(response.bodyText)
+      this.placeId = this.isEdit ? this.$route.params.id : null
+      this.$http.get(`${this.$API_URL}/api/places/${this.placeId}`).then((response) => {
+        this.place = JSON.parse(response.bodyText)
       }, (response) => {
         this.hasError = true
         this.state = 1

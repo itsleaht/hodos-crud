@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     loadImages (imagePath) {
-      this.$http.get(`http://localhost:3000/api/images/${imagePath}/${this.personnageId}/jpg`).then(response => {
+      this.$http.get(`${this.$API_URL}/api/images/${imagePath}/${this.personnageId}/jpg`).then(response => {
         if (response.body.length) {
           console.log(imagePath)
           this.src[imagePath] = response.url
@@ -57,7 +57,7 @@ export default {
     }
   },
   created () {
-    this.$http.get(`http://localhost:3000/api/characters/${this.personnageId}`).then((response) => {
+    this.$http.get(`${this.$API_URL}/api/characters/${this.personnageId}`).then((response) => {
       this.personnage = JSON.parse(response.bodyText)
     })
   },

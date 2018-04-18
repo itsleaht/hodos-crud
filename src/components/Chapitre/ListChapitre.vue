@@ -60,14 +60,15 @@ export default {
   methods: {
     deleteAlert (id) {
       if (confirm('Êtes-vous sûr de vouloir supprimer ce chapitre ?')) {
-        this.$http.delete('http://localhost:3000/api/chapters/delete/' + id).then((response) => {
+        this.$http.delete(`${this.$API_URL}/api/chapters/delete/${id}`).then((response) => {
           this.chapitres = JSON.parse(response.bodyText)
         })
       }
     }
   },
   created () {
-    this.$http.get('http://localhost:3000/api/chapters').then((response) => {
+    console.log(process.env.API_URL)
+    this.$http.get(`${this.$API_URL}/api/chapters`).then((response) => {
       this.chapitres = JSON.parse(response.bodyText)
     })
   }

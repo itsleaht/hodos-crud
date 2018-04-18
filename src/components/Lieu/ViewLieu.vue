@@ -32,7 +32,7 @@ export default {
   methods: {
   },
   created () {
-    this.$http.get(`http://localhost:3000/api/places/${this.lieuId}`).then((response) => {
+    this.$http.get(`${this.$API_URL}/api/places/${this.lieuId}`).then((response) => {
       this.lieu = JSON.parse(response.bodyText)
     })
   }

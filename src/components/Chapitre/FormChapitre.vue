@@ -104,7 +104,7 @@ export default {
       console.log(chapitre.textBlocks)
 
       if (this.isEdit) {
-        this.$http.patch('http://localhost:3000/api/chapters/edit/' + this.chapitreId, chapitre).then((response) => {
+        this.$http.patch(`${this.$API_URL}/api/chapters/edit/${this.chapitreId}`, chapitre).then((response) => {
           this.$router.push({path: `/chapitre/list`})
         }, (response) => {
           console.log('error', response)
@@ -112,7 +112,7 @@ export default {
           this.state = 1
         })
       } else {
-        this.$http.post('http://localhost:3000/api/chapters/create', chapitre).then((response) => {
+        this.$http.post(`${this.$API_URL}/api/chapters/create`, chapitre).then((response) => {
           this.$router.push({path: '/chapitre/list'})
         }, (response) => {
           console.log('error', response)

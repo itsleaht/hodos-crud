@@ -96,7 +96,7 @@ export default {
       const formData = new FormData(form)
 
       if (this.isEdit) {
-        this.$http.patch('http://localhost:3000/api/characters/edit/' + this.personnageId, formData).then((response) => {
+        this.$http.patch(`${this.$API_URL}/api/characters/edit/${this.personnageId}`, formData).then((response) => {
           this.$router.push({path: `/personnages/list`})
         }, (response) => {
           console.log('error', response)
@@ -104,7 +104,7 @@ export default {
           this.state = 1
         })
       } else {
-        this.$http.post('http://localhost:3000/api/characters/create', formData).then((response) => {
+        this.$http.post(`${this.$API_URL}/api/characters/create`, formData).then((response) => {
           this.$router.push({path: `/personnages/list`})
         }, (response) => {
           console.log('error', response)
@@ -118,7 +118,7 @@ export default {
     }
   },
   mounted () {
-    this.$http.get('http://localhost:3000/api/places').then((response) => {
+    this.$http.get(`${this.$API_URL}/api/places`).then((response) => {
       this.lieux = JSON.parse(response.bodyText)
     })
 

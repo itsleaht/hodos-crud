@@ -62,14 +62,14 @@ export default {
   methods: {
     deleteAlert (id) {
       if (confirm('Êtes-vous sûr de vouloir supprimer ce personnage ?')) {
-        this.$http.delete('http://localhost:3000/api/characters/delete/' + id).then((response) => {
+        this.$http.delete(`${this.$API_URL}/api/characters/delete/${id}`).then((response) => {
           this.personnages = JSON.parse(response.bodyText)
         })
       }
     }
   },
   created () {
-    this.$http.get('http://localhost:3000/api/characters').then((response) => {
+    this.$http.get(`${this.$API_URL}/api/characters`).then((response) => {
       this.personnages = JSON.parse(response.bodyText)
     })
   }

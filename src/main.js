@@ -7,7 +7,8 @@ import VueResource from 'vue-resource'
 import 'bulma/bulma.sass'
 
 Vue.use(VueResource)
-Vue.config.productionTip = false
+Vue.config.productionTip = process.env.NODE_ENV === 'production'
+Vue.prototype.$API_URL = (Vue.config.productionTip) ? 'https://www.your-api.com' : 'http://localhost:3000'
 
 /* eslint-disable no-new */
 new Vue({

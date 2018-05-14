@@ -14,14 +14,16 @@
     </tr>
     </tbody>
   </table>
-
+  <toggle-data :data="chapter" />
 </div>
 </template>
 
 <script>
+import ToggleData from './../ToggleData'
+
 export default {
   name: 'view-chapter',
-  components: {},
+  components: {ToggleData},
   data () {
     return {
       chapters: [],
@@ -32,7 +34,7 @@ export default {
   methods: {
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/chapters/${this.chapterId}`).then((response) => {
+    this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
       this.chapter = JSON.parse(response.bodyText)
     })
   }

@@ -96,7 +96,7 @@ export default {
       const formData = new FormData(form)
 
       if (this.isEdit) {
-        this.$http.patch(`${this.$API_URL}/api/characters/edit/${this.characterId}`, formData).then((response) => {
+        this.$http.post(`${this.$API_URL}/api/characters/edit.php?id=${this.characterId}`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'listCharacter'})
         }, (response) => {
           console.log('error', response)
@@ -104,7 +104,7 @@ export default {
           this.state = 1
         })
       } else {
-        this.$http.post(`${this.$API_URL}/api/characters/create`, formData).then((response) => {
+        this.$http.post(`${this.$API_URL}/api/characters/create.php`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'listCharacter'})
         }, (response) => {
           console.log('error', response)
@@ -118,13 +118,13 @@ export default {
     }
   },
   mounted () {
-    this.$http.get(`${this.$API_URL}/api/places`).then((response) => {
+    this.$http.get(`${this.$API_URL}/api/places/index.php`).then((response) => {
       this.lieux = JSON.parse(response.bodyText)
     })
 
     if (this.isEdit) {
       this.characterId = this.isEdit ? this.$route.params.id : null
-      this.$http.get('http://localhost:3000/api/characters/' + this.characterId).then((response) => {
+      this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.characterId}`).then((response) => {
         this.character = JSON.parse(response.bodyText)
       })
     }

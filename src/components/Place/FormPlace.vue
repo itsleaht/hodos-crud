@@ -16,11 +16,18 @@
      </div>
 
      <div class="field">
+       <label class="label">Description </label>
+       <div class="control">
+         <input class="input" type="text" placeholder="Ex : Maison des Dieux" v-model="place.description">
+       </div>
+     </div>
+
+     <div class="field">
        <label class="label">Chapitres concernés</label>
        <div class="control">
          <div class="select">
            <select multiple v-model="place.chapters">
-             <option v-for="chapter in 100" :key="'place_'+chapter" :value="chapter"> Chapitre {{chapter}}</option>
+             <option v-for="chapter in 100" :key="'place_'+chapter" :value="chapter - 1"> Chapitre {{chapter}}</option>
            </select>
          </div>
        </div>
@@ -47,6 +54,7 @@ export default {
       place: {
         id: null,
         name: null,
+        description: null,
         chapters: []
       },
       placeId: null,
@@ -57,7 +65,8 @@ export default {
   methods: {
     addPlace () {
       if (this.isEdit) {
-        this.$http.patch(`${this.$API_URL}/api/places/edit/${this.placeId}`, this.place).then((response) => {
+        this.$http.post(`${this.$API_URL}/api/places/edit.php?id=${this.placeId}`, this.place, {emulateJSON: true}).then((response) => {
+          console.log(response)
           this.$router.push({path: `/lieux/list`})
         }, (response) => {
           console.log('error', response)
@@ -66,7 +75,9 @@ export default {
         }
         )
       } else {
-        this.$http.post(`${this.$API_URL}/api/places/create`, this.place).then((response) => {
+        console.log(this.place)
+        this.$http.post(`${this.$API_URL}/api/places/create.php`, this.place, {emulateJSON: true}).then((response) => {
+          console.log(response)
           this.$router.push({name: 'listPlace'})
         }, (response) => {
           console.log('error', response)
@@ -79,8 +90,11 @@ export default {
   mounted () {
     if (this.isEdit) {
       this.placeId = this.isEdit ? this.$route.params.id : null
-      this.$http.get(`${this.$API_URL}/api/places/${this.placeId}`).then((response) => {
+      this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
+        console.log('edit', response)
+        console.log(JSON.parse(response.bodyText))
         this.place = JSON.parse(response.bodyText)
+        this.place.chapters = this.place.chapters.split()
       }, (response) => {
         this.hasError = true
         this.state = 1

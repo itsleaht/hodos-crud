@@ -27,15 +27,16 @@
       <td v-else>{{ value }}</td>
     </tr>
   </table>
-
+  <toggle-data :data="character"/>
 </div>
 </template>
 
 <script>
+import ToggleData from './../ToggleData'
 
 export default {
   name: 'view-character',
-  components: {},
+  components: {ToggleData},
   data () {
     return {
       src: {
@@ -61,7 +62,7 @@ export default {
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/characters/${this.characterId}`).then((response) => {
+    this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.characterId}`).then((response) => {
       this.character = JSON.parse(response.bodyText)
     })
   },

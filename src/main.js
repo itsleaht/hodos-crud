@@ -8,7 +8,7 @@ import 'bulma/bulma.sass'
 
 Vue.use(VueResource)
 Vue.config.productionTip = process.env.NODE_ENV === 'production'
-Vue.prototype.$API_URL = (Vue.config.productionTip) ? 'https://hodos-crud-server.herokuapp.com' : 'http://localhost:3000'
+Vue.prototype.$API_URL = (Vue.config.productionTip) ? 'http://leatanda.fr/hodos-api' : 'http://leatanda.fr/hodos-api'
 
 /* eslint-disable no-new */
 new Vue({

@@ -14,15 +14,16 @@
     </tr>
     </tbody>
   </table>
-
+  <toggle-data :data="place" />
 </div>
 </template>
 
 <script>
+import ToggleData from './../ToggleData'
 
 export default {
   name: 'view-personnage',
-  components: {},
+  components: {ToggleData},
   data () {
     return {
       place: {},
@@ -32,7 +33,7 @@ export default {
   methods: {
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/places/${this.placeId}`).then((response) => {
+    this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
       this.place = JSON.parse(response.bodyText)
     })
   }

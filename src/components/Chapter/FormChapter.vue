@@ -31,6 +31,28 @@
     </div>
 
     <div class="field">
+      <label class="label">Lieu associé</label>
+      <div class="control">
+        <div class="select">
+          <select v-model="chapter.place" name="place">
+            <option v-for="(place, index) in places" :key="'lieu_'+index" :value="place.id">{{place.id}} - {{place.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Personnage découvert</label>
+      <div class="control">
+        <div class="select">
+          <select v-model="chapter.character" name="place">
+            <option v-for="(character, index) in characters" :key="'lieu_'+index" :value="character.id">{{character.id}} - {{character.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
       <label class="label">Texte début de chapitre</label>
       <div class="control">
         <textarea class="textarea" name="beginText" placeholder="Texte du début lu à l'oral" v-model="chapter.beginText"></textarea>
@@ -75,23 +97,29 @@ export default {
         title: null,
         numberInt: null,
         numberRoman: null,
+        place: null,
+        character: null,
         beginText: null,
         previously: null,
         textBlocks: null
       },
       chapterId: null,
       state: null,
+      places: [],
+      characters: [],
       hasError: false
     }
   },
   methods: {
     addChapter () {
       const chapter = this.chapter
-      chapter.textBlocks = chapter.textBlocks.split('\n\n')
-      console.log(chapter.textBlocks)
+
+      if (chapter.textBlocks && chapter.textBlocks.length) {
+        chapter.textBlocks = chapter.textBlocks.split('\n\n')
+      }
 
       if (this.isEdit) {
-        this.$http.patch(`${this.$API_URL}/api/chapters/edit/${this.chapterId}`, chapter).then((response) => {
+        this.$http.post(`${this.$API_URL}/api/chapters/edit.php?id=${this.chapterId}`, chapter, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'listChapter'})
         }, (response) => {
           console.log('error', response)
@@ -99,7 +127,7 @@ export default {
           this.state = 1
         })
       } else {
-        this.$http.post(`${this.$API_URL}/api/chapters/create`, chapter).then((response) => {
+        this.$http.post(`${this.$API_URL}/api/chapters/create.php`, chapter, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'listChapter'})
         }, (response) => {
           console.log('error', response)
@@ -120,10 +148,17 @@ export default {
     }
   },
   mounted () {
+    this.$http.get(`${this.$API_URL}/api/places/index.php`).then((response) => {
+      this.places = JSON.parse(response.bodyText)
+    })
+    this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
+      this.characters = JSON.parse(response.bodyText)
+    })
+
     if (this.isEdit) {
       this.chapterId = this.isEdit ? this.$route.params.id : null
 
-      this.$http.get('http://localhost:3000/api/chapters/' + this.chapterId).then((response) => {
+      this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
         this.chapter = JSON.parse(response.bodyText)
         this.chapter.textBlocks = this.arrayToString(this.chapter.textBlocks, '\n\n')
       }, (response) => {

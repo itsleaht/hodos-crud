@@ -13,7 +13,7 @@
       <tr>
         <th>ID</th>
         <th>Nom</th>
-        <th>Actions</th>
+        <th class="actions">Actions</th>
       </tr>
       </tfoot>
       <tbody>

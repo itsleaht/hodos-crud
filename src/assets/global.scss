@@ -31,3 +31,24 @@
     }
   }
 }
+
+.table {
+  thead, tfoot {
+    th {
+    color: #7b95a7;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    vertical-align: middle;
+    
+      &.actions {
+        min-width: 375px;
+      }
+    }
+  }
+
+  td, th {
+    color: #7b95a7;
+    color: #4f6574
+  }
+}

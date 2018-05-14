@@ -15,7 +15,7 @@
         <th>ID</th>
         <th>N° Chapitre</th>
         <th>Titre</th>
-        <th>Actions</th>
+        <th class="actions">Actions</th>
       </tr>
       </tfoot>
       <tbody>

@@ -9,7 +9,6 @@
   </div>
 </template>
 <script>
-// import hljs from 'highlightjs'
 
 export default {
   name: 'toggle-data',
@@ -23,20 +22,6 @@ export default {
       toggleData: false
     }
   },
-  methods: {
-
-  },
-  // mounted () {
-  //   hljs.initHighlighting()
-  // },
-  // watch: {
-  //   data: function (val) {
-  //     console.log(hljs)
-  //     console.log(val)
-  //     hljs.initHighlighting()
-  //     hljs.highlightBlock(this.$refs.codeData)
-  //   }
-  // }
 }
 </script>
 <style lang="scss" scoped>
@@ -67,7 +52,6 @@ export default {
       }
     }
     pre {
-      padding-top: 50px;
       max-width: 100%;
       max-height: 500px;
       border-radius: 10px;

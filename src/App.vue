@@ -57,7 +57,7 @@ export default {
 
 <style lang="scss">
   #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: 'Work Sans', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -71,6 +71,7 @@ export default {
     }
 
     nav {
+      box-shadow: 1Px 1px 8px rgba(128, 128, 128, 0.2);
       a {
         &.router-link-active {
           background-color: #00b89c;
@@ -91,7 +92,7 @@ export default {
     }
 
     h2 {
-      font-size: 20px;
+      font-size: 25px;
       font-weight: bold;
       text-align: center;
       text-transform: uppercase;

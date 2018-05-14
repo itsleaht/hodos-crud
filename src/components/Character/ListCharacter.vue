@@ -15,7 +15,7 @@
           <th>ID</th>
           <th>Nom</th>
           <th>Role</th>
-          <th>Actions</th>
+          <th class="actions">Actions</th>
         </tr>
       </tfoot>
       <tbody>

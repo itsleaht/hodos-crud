@@ -160,7 +160,7 @@ export default {
 
       this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
         this.chapter = JSON.parse(response.bodyText)
-        this.chapter.textBlocks = this.arrayToString(this.chapter.textBlocks, '\n\n')
+        this.chapter.textBlocks =  this.chapter.textBlocks ? this.arrayToString(this.chapter.textBlocks, '\n\n') : ''
       }, (response) => {
         this.hasError = true
         this.state = 1

@@ -22,7 +22,25 @@
     <div class="field">
       <label class="label">Type</label>
       <div class="control">
-        <input class="input" type="text" name="type" v-model="character.type" placeholder="Ex : Dieu">
+        <input class="input" type="text" name="type" v-model="character.type" placeholder="Ex : Dieu, Cyclope, Sorcière...">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Compétence</label>
+      <div class="control">
+        <input class="input" type="text" name="type" v-model="character.skill" placeholder="Ex : Pouvoir voler, faire du feu...">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Type de compétence</label>
+      <div class="control">
+        <div class="select">
+          <select v-model="character.skillType" name="place">
+            <option v-for="(skillType, index) in skillTypes" :key="'skillType_'+index" :value="skillType">{{skillType}}</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -87,7 +105,11 @@ export default {
       errors: {
         submitError: false,
         hasLoadingError: false
-      }
+      },
+      skillTypes: [
+        'Physique',
+        'Psychique'
+      ]
     }
   },
   methods: {

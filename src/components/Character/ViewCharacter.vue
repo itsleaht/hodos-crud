@@ -57,6 +57,8 @@ export default {
         'Type',
         'Rôle',
         'Lieu de Rencontre',
+        'Compétence',
+        'Type de compétence',
         'Description',
         'Liens de parenté'
       ],
@@ -80,6 +82,11 @@ export default {
   created () {
     this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.characterId}`).then((response) => {
       this.character = JSON.parse(response.bodyText)
+      this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.character.place}`).then((response) => {
+        const place = JSON.parse(response.bodyText)
+        const { name } = place
+        this.character.place = name
+      })
     })
   },
   mounted () {

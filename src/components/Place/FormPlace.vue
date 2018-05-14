@@ -91,10 +91,8 @@ export default {
     if (this.isEdit) {
       this.placeId = this.isEdit ? this.$route.params.id : null
       this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
-        console.log('edit', response)
-        console.log(JSON.parse(response.bodyText))
         this.place = JSON.parse(response.bodyText)
-        this.place.chapters = this.place.chapters.split()
+        this.place.chapters = this.place.chapters ? this.place.chapters.split() : []
       }, (response) => {
         this.hasError = true
         this.state = 1

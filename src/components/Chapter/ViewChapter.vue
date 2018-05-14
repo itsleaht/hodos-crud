@@ -40,7 +40,7 @@ export default {
         'Numéro de chapitre (nombre)',
         'Numéro de chapitre (chiffres romains)',
         'Lieu associé',
-        'Personnge découvert',
+        'Personnage découvert',
         'Texte de début de chapitre',
         'Previously',
         'Blocs de textes'
@@ -52,6 +52,17 @@ export default {
   created () {
     this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
       this.chapter = JSON.parse(response.bodyText)
+
+      this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.chapter.place}`).then((response) => {
+        const place = JSON.parse(response.bodyText)
+        const { name } = place
+        this.chapter.place = name
+      })
+      this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.chapter.character}`).then((response) => {
+        const character = JSON.parse(response.bodyText)
+        const { name } = character
+        this.chapter.character = name
+      })
     })
   }
 }

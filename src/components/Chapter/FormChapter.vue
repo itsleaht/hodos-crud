@@ -10,21 +10,21 @@
     </div>
 
     <div class="field">
-      <label class="label">Nom</label>
+      <label class="label">Titre</label>
       <div class="control">
         <input class="input" type="text" name="title" placeholder="Un nom" v-model="chapter.title">
       </div>
     </div>
 
     <div class="field">
-      <label class="label">NumberInt</label>
+      <label class="label">Numéro de chapitre (nombre)</label>
       <div class="control">
         <input class="input" type="number" min="1" max="100" name="numberInt" placeholder="Entre 1 - 100" v-model="chapter.numberInt">
       </div>
     </div>
 
     <div class="field">
-      <label class="label">NumberRoman</label>
+      <label class="label">Numéro de chapitre (chiffres romains)</label>
       <div class="control">
         <input class="input" type="text" name="numberRoman" placeholder="Ex: XVI" v-model="chapter.numberRoman">
       </div>

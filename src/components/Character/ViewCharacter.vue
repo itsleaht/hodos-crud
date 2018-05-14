@@ -2,6 +2,13 @@
 <div id="view-character">
   <h2>Vue du personnage avec l'id {{ $route.params.id }}</h2>
 
+  <router-link :to="{ name: 'editCharacter', params: { id: character.id }}" class="button is-warning">
+    <span class="icon is-small">
+      <i class="fas fa-edit"></i>
+    </span>
+    <span>Modifier</span>
+  </router-link>
+
   <div class="images">
     <figure class="image">
       <a :href="src.profile" target="_blank">
@@ -18,15 +25,15 @@
 
   </div>
 
-  <table class="table">
-    <tr v-for="(value, key, index) in character" :key="index">
-      <th>{{ key }}</th>
-      <td v-if="Array.isArray(value)">
+  <div class="table-container">
+    <div v-for="(value, key, index) in character" :key="index" class="table-line">
+      <div class="table-header">{{ fields[index] }}</div>
+      <div class="table-content" v-if="Array.isArray(value)">
         <span v-for="(val, index2) in value" :key="index2"> {{val}} /</span>
-      </td>
+      </div>
       <td v-else>{{ value }}</td>
-    </tr>
-  </table>
+    </div>
+  </div>
   <toggle-data :data="character"/>
 </div>
 </template>
@@ -44,6 +51,15 @@ export default {
         'map': ''
       },
       character: {},
+      fields: [
+        'ID',
+        'Nom',
+        'Type',
+        'Rôle',
+        'Lieu de Rencontre',
+        'Description',
+        'Liens de parenté'
+      ],
       characterId: this.$route.params.id
     }
   },
@@ -78,6 +94,12 @@ export default {
 
 <style lang="scss" scoped>
 
+  a {
+    position: absolute;
+    right: 40px;
+    top: 70px;
+  }
+
   #view-character {
     margin-bottom: 50px;
 
@@ -107,7 +129,11 @@ export default {
 
     table {
       margin: 0 auto;
-      min-width: 800px;
+      width: 800px;
+
+      th {
+        width: 200px;
+      }
     }
   }
 </style>

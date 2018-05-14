@@ -2,13 +2,15 @@
   <div class="field column">
     <a class="button is-dark" @click="toggleData = !toggleData"><span>Toggle Data</span> <i class="fas fa-angle-down"></i></a>
     <transition name="grow"  mode="out-in">
-      <pre v-if="toggleData">
-        {{data}}
+      <pre v-if="toggleData" ref="codeData"  v-highlightjs>
+        <code class="json">{{data}}</code>
       </pre>
     </transition>
   </div>
 </template>
 <script>
+// import hljs from 'highlightjs'
+
 export default {
   name: 'toggle-data',
   props: {
@@ -23,7 +25,18 @@ export default {
   },
   methods: {
 
-  }
+  },
+  // mounted () {
+  //   hljs.initHighlighting()
+  // },
+  // watch: {
+  //   data: function (val) {
+  //     console.log(hljs)
+  //     console.log(val)
+  //     hljs.initHighlighting()
+  //     hljs.highlightBlock(this.$refs.codeData)
+  //   }
+  // }
 }
 </script>
 <style lang="scss" scoped>
@@ -38,11 +51,14 @@ export default {
 
   div {
     position: relative;
-    margin-bottom: 100px;
+    width: 820px;
+    margin: 30px auto 100px;
+    border-radius: 10px;
 
     a {
       position: absolute;
       left: 0;
+      top: 0;
       font-size: 13px;
       z-index: 10;
 
@@ -54,6 +70,7 @@ export default {
       padding-top: 50px;
       max-width: 100%;
       max-height: 500px;
+      border-radius: 10px;
       white-space: pre-wrap;
       opacity: 1;
       text-align: left;

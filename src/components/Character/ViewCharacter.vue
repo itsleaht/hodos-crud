@@ -26,10 +26,10 @@
   </div>
 
   <div class="table-container">
-    <div v-for="(value, key, index) in character" :key="index" class="table-line">
-      <div class="table-header">{{ fields[index] }}</div>
+    <div v-for="(value, key, index) in character" :key="index" class="table-line" :class="{'unEditable': fields[index].unEditable }">
+      <div class="table-header">{{ fields[index].name }}</div>
       <div class="table-content" v-if="Array.isArray(value)">
-        <span v-for="(val, index2) in value" :key="index2"> {{val}} /</span>
+        <p v-for="(val, index2) in value" :key="index2"> {{val}} </p>
       </div>
       <td v-else>{{ value }}</td>
     </div>
@@ -52,15 +52,13 @@ export default {
       },
       character: {},
       fields: [
-        'ID',
-        'Nom',
-        'Type',
-        'Rôle',
-        'Lieu de Rencontre',
-        'Compétence',
-        'Type de compétence',
-        'Description',
-        'Liens de parenté'
+        {name: 'ID'},
+        {name: 'Nom'},
+        {name: 'Type'},
+        {name: 'Rôle'},
+        {name: 'Description'},
+        {name: 'Liens de parenté'},
+        {name: 'Compétences', unEditable: true},
       ],
       characterId: this.$route.params.id
     }
@@ -82,10 +80,18 @@ export default {
   created () {
     this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.characterId}`).then((response) => {
       this.character = JSON.parse(response.bodyText)
-      this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.character.place}`).then((response) => {
-        const place = JSON.parse(response.bodyText)
-        const { name } = place
-        this.character.place = name
+      this.character.skills = []
+
+      this.$http.get(`${this.$API_URL}/api/skills/index.php`).then((response) => {
+        const skillsList = JSON.parse(response.bodyText)
+        var characterSkills = []
+        skillsList.map(skill => {
+          if (skill.character === this.characterId) {
+            console.log("yes")
+            characterSkills.push(skill.name)
+          }
+        })
+        this.character =  {...this.character, 'skills': characterSkills}
       }).catch(err => {
         console.log('View Character data place error : ', err)
       })

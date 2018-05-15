@@ -16,6 +16,11 @@ import ListChapter from '../components/Chapter/ListChapter'
 import FormChapter from '../components/Chapter/FormChapter'
 import ViewChapter from '../components/Chapter/ViewChapter'
 
+import Skill from '../components/Skill/Skill'
+import ListSkill from '../components/Skill/ListSkill'
+import FormSkill from '../components/Skill/FormSkill'
+import ViewSkill from '../components/Skill/ViewSkill'
+
 Vue.use(Router)
 
 export default new Router({
@@ -106,6 +111,33 @@ export default new Router({
           path: 'view/:id',
           name: 'viewChapter',
           component: ViewChapter
+        }
+      ]
+    },
+    {
+      path: '/competences',
+      name: 'skill',
+      component: Skill,
+      children: [
+        {
+          path: 'list',
+          name: 'listSkill',
+          component: ListSkill
+        },
+        {
+          path: 'create',
+          name: 'createSkill',
+          component: FormSkill
+        },
+        {
+          path: 'edit/:id',
+          name: 'editSkill',
+          component: FormSkill
+        },
+        {
+          path: 'view/:id',
+          name: 'viewSkill',
+          component: ViewSkill
         }
       ]
     }

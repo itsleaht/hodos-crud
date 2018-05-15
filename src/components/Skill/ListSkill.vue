@@ -1,6 +1,6 @@
 <template>
-  <div class="list-place">
-    <h2>Liste des lieux</h2>
+  <div class="list-skill">
+    <h2>Liste des compétences</h2>
     <table class="table">
       <thead>
       <tr>
@@ -17,23 +17,23 @@
       </tr>
       </tfoot>
       <tbody>
-      <tr v-for="place in places" :key="place.id">
-        <th>{{place.id}}</th>
-        <td>{{place.name}}</td>
+      <tr v-for="skill in skills" :key="skill.id">
+        <th>{{skill.id}}</th>
+        <td>{{skill.name}}</td>
         <td>
-          <router-link :to="{name: 'viewPlace', params: {id: place.id} }" class="button is-info">
+          <router-link :to="{name: 'viewSkill', params: {id: skill.id} }" class="button is-info">
               <span class="icon is-small">
                 <i class="fas fa-eye"></i>
               </span>
             <span>Voir</span>
           </router-link>
-          <router-link :to="{ name: 'editPlace', params: { id: place.id }}" class="button is-warning">
+          <router-link :to="{ name: 'editSkill', params: { id: skill.id }}" class="button is-warning">
               <span class="icon is-small">
                 <i class="fas fa-edit"></i>
               </span>
             <span>Modifier</span>
           </router-link>
-          <a class="button is-danger" @click="deleteAlert(place.id)">
+          <a class="button is-danger" @click="deleteAlert(skill.id)">
               <span class="icon is-small">
                 <i class="fas fa-trash"></i>
               </span>
@@ -48,27 +48,27 @@
 
 <script>
 export default {
-  name: 'list-place',
+  name: 'list-skill',
   data () {
     return {
-      places: []
+      skills: []
     }
   },
   methods: {
     deleteAlert (id) {
-      if (confirm('Êtes-vous sûr de vouloir supprimer ce lieu ?')) {
-        this.$http.delete(`${this.$API_URL}/api/places/delete.php?id=${id}`).then((response) => {
-          this.places = JSON.parse(response.bodyText)
-          this.$router.push({name: 'listPlace'})
+      if (confirm('Êtes-vous sûr de vouloir supprimer cette compétence ?')) {
+        this.$http.delete(`${this.$API_URL}/api/skills/delete.php?id=${id}`).then((response) => {
+          this.skills = JSON.parse(response.bodyText)
+          this.$router.push({name: 'listSkill'})
         }).catch(err => {
-          console.log('List Place : load data error ', err)
+          console.log('List Skill : load data error ', err)
         })
       }
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/places`).then((response) => {
-      this.places = JSON.parse(response.bodyText)
+    this.$http.get(`${this.$API_URL}/api/skills`).then((response) => {
+      this.skills = JSON.parse(response.bodyText)
     })
   }
 }

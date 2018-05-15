@@ -17,29 +17,41 @@
             </span>
           </router-link>
           <router-link :to="{name:'listChapter'}" class="navbar-item">
-            <span>Chapitre</span>
+            <span>Chapitres</span>
             <span class="icon is-small">
                 <i class="fas fa-bookmark"></i>
+            </span>
+          </router-link>
+          <router-link :to="{name:'listSkill'}" class="navbar-item">
+            <span>Compétences</span>
+            <span class="icon is-small">
+                <i class="fas fa-wrench"></i>
             </span>
           </router-link>
         </div>
         <div class="navbar-end">
           <router-link :to="{name:'createCharacter'}" class="navbar-item">
-            <span>Ajouter Personnage</span>
+            <span>Personnage</span>
             <span class="icon is-small">
                 <i class="fas fa-plus-circle"></i>
             </span>
           </router-link>
           <router-link :to="{name:'createPlace'}" class="navbar-item">
-            <span>Ajouter Lieux</span>
+            <span>Lieu</span>
             <span class="icon is-small">
                 <i class="fas fa-plus-circle"></i>
             </span>
           </router-link>
           <router-link :to="{name:'createChapter'}" class="navbar-item">
-            <span>Ajouter Chapitre</span>
+            <span>Chapitre</span>
             <span class="icon is-small">
                 <i class="fas fa-plus-circle"></i>
+            </span>
+          </router-link>
+          <router-link :to="{name:'createSkill'}" class="navbar-item">
+            <span>Compétence</span>
+            <span class="icon is-small">
+                <i class="fas fas fa-plus-circle"></i>
             </span>
           </router-link>
         </div>

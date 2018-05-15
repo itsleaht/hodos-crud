@@ -46,11 +46,44 @@
     </div>
 
     <div class="field">
-      <label class="label">Personnage découvert</label>
+      <label class="label">Personnages découverts dans ce chapitre</label>
       <div class="control">
         <div class="select">
-          <select v-model="chapter.character" name="character">
-            <option v-for="(character, index) in characters" :key="'lieu_'+index" :value="character.id">{{character.id}} - {{character.name}}</option>
+          <select v-model="chapter.charactersDiscovered" name="charactersDiscovered" multiple>
+            <option v-for="(character, index) in characters" :key="'charactersDiscovered_'+index" :value="character.id">{{character.id}} - {{character.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Personnages associés à ce chapitre</label>
+      <div class="control">
+        <div class="select">
+          <select v-model="chapter.characters" name="characters" multiple>
+            <option v-for="(character, index) in characters" :key="'characters_'+index" :value="character.id">{{character.id}} - {{character.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Compétence découverte</label>
+      <div class="control">
+        <div class="select">
+          <select v-model="chapter.skillDiscovered" name="skillDiscovered">
+            <option v-for="(skill, index) in skills" :key="'skillDiscovered_'+index" :value="skill.id">{{skill.id}} - {{skill.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Compétence utilisée</label>
+      <div class="control">
+        <div class="select">
+          <select v-model="chapter.skillUsed" name="skillUsed">
+            <option v-for="(skill, index) in skills" :key="'skillUsed_'+index" :value="skill.id">{{skill.id}} - {{skill.name}}</option>
           </select>
         </div>
       </div>
@@ -130,9 +163,17 @@ export default {
         formData.append('textBlocks', JSON.stringify(chapter.textBlocks))
       }
 
+      if (chapter.charactersDiscovered && chapter.charactersDiscovered.length) {
+        formData.append('charactersDiscovered', JSON.stringify(chapter.charactersDiscovered))
+      }
+
+      if (chapter.characters && chapter.characters.length) {
+        formData.append('characters', JSON.stringify(chapter.characters))
+      }
+
       if (this.isEdit) {
         this.$http.post(`${this.$API_URL}/api/chapters/edit.php?id=${this.chapterId}`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'listChapter'})
+          this.$router.push({name: 'viewChapter', params: {id : this.chapterId} })
         }).catch(err => {
           console.log('Form Chapter Edit : error', err)
           this.hasError = true
@@ -140,7 +181,7 @@ export default {
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/chapters/create.php`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'listChapter'})
+          this.$router.push({name: 'viewChapter', params: {id : this.chapterId} })
         }).catch(err => {
           console.log('Form Chapter Create : error', err)
           this.hasError = true
@@ -184,7 +225,13 @@ export default {
     this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
       this.characters = JSON.parse(response.bodyText)
     }).catch(err => {
-      console.log('Form Chapter : load data error ', err)
+      console.log('Form Chapter : load characters error ', err)
+    })
+
+    this.$http.get(`${this.$API_URL}/api/skills/index.php`).then((response) => {
+      this.skills = JSON.parse(response.bodyText)
+    }).catch(err => {
+      console.log('Form Chapter : load skills error ', err)
     })
 
     if (this.isEdit) {

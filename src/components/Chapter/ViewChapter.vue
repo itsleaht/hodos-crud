@@ -22,7 +22,7 @@
     <div v-for="(value, key, index) in chapter" :key="index" class="table-line">
       <div class="table-header">{{ fields[index] }}</div>
       <div class="table-content" v-if="Array.isArray(value)">
-        <p v-for="(val, index2) in value" :key="index2" v-html="val.replace('\n','<br>')"> /</p>
+        <p v-for="(val, index2) in value" :key="index2" v-html="val.toString().replace('\n','<br>')"> /</p>
       </div>
       <td v-else>{{ value }}</td>
     </div>
@@ -49,7 +49,10 @@ export default {
         'Numéro de chapitre (nombre)',
         'Numéro de chapitre (chiffres romains)',
         'Lieu associé',
-        'Personnage découvert',
+        'Personnages découverts',
+        'Personnages associés',
+        'Compétence découverte',
+        'Compétence utilisée',
         'Texte de début de chapitre',
         'Previously',
         'Blocs de textes'
@@ -79,10 +82,41 @@ export default {
         const { name } = place
         this.chapter.place = name
       })
-      this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.chapter.character}`).then((response) => {
-        const character = JSON.parse(response.bodyText)
-        const { name } = character
-        this.chapter.character = name
+
+      this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
+        const characterList = JSON.parse(response.bodyText)
+
+        const charactersDiscoveredArray = this.chapter.charactersDiscovered
+
+        this.chapter.charactersDiscovered = []
+        charactersDiscoveredArray.map((character) => {
+          for (let i = 0; i < characterList.length; i++) {
+            const item = characterList[i]
+            if (item.id === character) {
+              this.chapter.charactersDiscovered.push(item.name)
+            }
+          }
+        })
+
+        const charactersArray = this.chapter.characters
+
+        this.chapter.characters = []
+        charactersArray.map((character) => {
+          for (let i = 0; i < characterList.length; i++) {
+            const item = characterList[i]
+            if (item.id === character) {
+              this.chapter.characters.push(item.name)
+            }
+          }
+        })
+      })
+
+      this.$http.get(`${this.$API_URL}/api/skills/view.php?id=${this.chapter.skillUsed}`).then((response) => {
+        this.chapter.skillUsed = JSON.parse(response.bodyText).name
+      })
+
+      this.$http.get(`${this.$API_URL}/api/skills/view.php?id=${this.chapter.skillDiscovered}`).then((response) => {
+        this.chapter.skillDiscovered = JSON.parse(response.bodyText).name
       })
     })
   },

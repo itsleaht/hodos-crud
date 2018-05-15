@@ -31,7 +31,7 @@
        <div class="control">
          <div class="select">
            <select multiple v-model="place.chapters" name="chapters">
-             <option v-for="chapter in 100" :key="'place_'+chapter" :value="chapter - 1"> Chapitre {{chapter}}</option>
+             <option v-for="chapter in chapterList" :key="'place_'+chapter.id" :value="chapter.id"> Chapitre {{chapter.numberInt}} - {{chapter.title}} </option>
            </select>
          </div>
        </div>
@@ -66,6 +66,7 @@ export default {
       },
       placeId: null,
       state: null,
+      chapterList: [],
       src: null,
       hasError: false
     }
@@ -75,6 +76,9 @@ export default {
       const form = document.querySelector('form')
       const formData = new FormData(form)
 
+      if (this.place.chapters.length) {
+        formData.append('chapters', JSON.stringify(this.place.chapters))
+      }
       if (this.isEdit) {
         this.$http.post(`${this.$API_URL}/api/places/edit.php?id=${this.placeId}`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({path: `/lieux/list`})
@@ -109,7 +113,8 @@ export default {
       this.placeId = this.isEdit ? this.$route.params.id : null
       this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
         this.place = JSON.parse(response.bodyText)
-        this.place.chapters = this.place.chapters ? this.place.chapters.split() : []
+        console.log(this.place.chapters)
+        // this.place.chapters = this.place.chapters.length ? this.place.chapters.split() : []
         this.loadImage()
       }).catch(err => {
         console.log('Form Place Load Data : error', err)
@@ -117,6 +122,14 @@ export default {
         this.state = 1
       })
     }
+
+    this.$http.get(`${this.$API_URL}/api/chapters/index.php`).then((response) => {
+      this.chapterList = JSON.parse(response.bodyText)
+    }).catch(err => {
+      console.log('Form Place Load Chapters : error', err)
+      this.hasError = true
+      this.state = 1
+    })
   }
 }
 </script>

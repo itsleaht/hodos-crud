@@ -21,7 +21,7 @@
       <div v-for="(value, key, index) in place" :key="index" class="table-line">
         <div class="table-header">{{ fields[index] }}</div>
         <div class="table-content" v-if="Array.isArray(value)">
-          <span v-for="(val, index2) in value" :key="index2"> {{val}} /</span>
+          <p v-for="(val, index2) in value" :key="index2"> {{val}} </p>
         </div>
         <td v-else>{{ value }}</td>
       </div>
@@ -66,6 +66,24 @@ export default {
   created () {
     this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
       this.place = JSON.parse(response.bodyText)
+
+      this.$http.get(`${this.$API_URL}/api/chapters/index.php`).then((response) => {
+        const chapterList = JSON.parse(response.bodyText)
+
+        const chapterArray = this.place.chapters
+        this.place.chapters = []
+        chapterArray.map((chapter) => {
+          for (let i = 0; i < chapterList.length; i++) {
+            const item = chapterList[i]
+            if (item.id === chapter) {
+              this.place.chapters.push(`Chapitre ${item.numberInt} - ${item.title}`)
+              break
+            }
+          }
+        })
+      }).catch(err => {
+        console.log('View Place : load data error ', err)
+      })
     }).catch(err => {
       console.log('View Place : load data error ', err)
     })
@@ -77,13 +95,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  table {
-    margin: 50px auto 0;
-    width: 800px;
-
-    th {
-      width: 200px;
-    }
+  p {
+    margin: 10px 0;
   }
 
 </style>

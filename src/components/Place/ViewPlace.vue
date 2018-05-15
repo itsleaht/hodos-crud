@@ -18,8 +18,8 @@
     </figure>
   </div>
     <div class="table-container">
-      <div v-for="(value, key, index) in place" :key="index" class="table-line">
-        <div class="table-header">{{ fields[index] }}</div>
+      <div v-for="(value, key, index) in place" :key="index" class="table-line" :class="{'unEditable': fields[index].unEditable }">
+        <div class="table-header">{{ fields[index].name }}</div>
         <div class="table-content" v-if="Array.isArray(value)">
           <p v-for="(val, index2) in value" :key="index2"> {{val}} </p>
         </div>
@@ -41,10 +41,11 @@ export default {
       place: {},
       placeId: this.$route.params.id,
       fields: [
-        'ID',
-        'Nom',
-        'Description',
-        'Chapitres concernés'
+        {name: 'ID'},
+        {name: 'Nom'},
+        {name: 'Description'},
+        {name: 'Chapitres concernés'},
+        {name: 'Personnages associés', unEditable: true}
       ],
       src: ''
     }
@@ -66,20 +67,52 @@ export default {
   created () {
     this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
       this.place = JSON.parse(response.bodyText)
+      this.place.characters = []
 
       this.$http.get(`${this.$API_URL}/api/chapters/index.php`).then((response) => {
         const chapterList = JSON.parse(response.bodyText)
+        var chaptersListObj = []
 
+        //Get all matching chapters
         const chapterArray = this.place.chapters
         this.place.chapters = []
         chapterArray.map((chapter) => {
           for (let i = 0; i < chapterList.length; i++) {
             const item = chapterList[i]
             if (item.id === chapter) {
+              chaptersListObj.push(item)
               this.place.chapters.push(`Chapitre ${item.numberInt} - ${item.title}`)
               break
             }
           }
+        })
+
+          //Get all matching characters
+        var charactersIds = [];
+        var uniqueIds = [];
+        chaptersListObj.map((chapter) => {
+          const chapterCharacters = chapter.characters
+
+          if (chapterCharacters && chapterCharacters.length) {
+            chapter.characters.map(characters => charactersIds.push(characters))
+
+            uniqueIds = [ ...new Set(charactersIds) ]
+          }
+        })
+
+        this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
+          const characterList = JSON.parse(response.bodyText)
+          console.log(characterList)
+          var newCharactersArray = []
+          uniqueIds.map(id => {
+            for (let i = 0; i < characterList.length; i++) {
+              if (characterList[i].id === id) {
+                newCharactersArray.push(characterList[i].name)
+              }
+            }
+          })
+          this.place =  {...this.place, 'characters': newCharactersArray}
+          console.log(this.place)
         })
       }).catch(err => {
         console.log('View Place : load data error ', err)

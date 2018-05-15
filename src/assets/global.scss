@@ -87,7 +87,8 @@
   height: 270px;
 }
 
-.unEditable {
-  background: #fbf8f8;
+.unEditable,
+.unEditable.table-line {
+  background: #f9f9f9;
   border: 1px solid #fff;
 }

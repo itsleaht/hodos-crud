@@ -130,10 +130,8 @@ export default {
         formData.append('textBlocks', JSON.stringify(chapter.textBlocks))
       }
 
-
       if (this.isEdit) {
         this.$http.post(`${this.$API_URL}/api/chapters/edit.php?id=${this.chapterId}`, formData, {emulateJSON: true}).then((response) => {
-          console.log(response.bodyText)
           this.$router.push({name: 'listChapter'})
         }).catch(err => {
           console.log('Form Chapter Edit : error', err)
@@ -142,8 +140,7 @@ export default {
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/chapters/create.php`, formData, {emulateJSON: true}).then((response) => {
-          console.log(response)
-          // this.$router.push({name: 'listChapter'})
+          this.$router.push({name: 'listChapter'})
         }).catch(err => {
           console.log('Form Chapter Create : error', err)
           this.hasError = true
@@ -195,7 +192,7 @@ export default {
 
       this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
         this.chapter = JSON.parse(response.bodyText)
-        this.chapter.textBlocks =  this.chapter.textBlocks && this.chapter.textBlocks.length > 0 ? this.arrayToString(this.chapter.textBlocks, '\n\n') : ''
+        this.chapter.textBlocks = this.chapter.textBlocks && this.chapter.textBlocks.length > 0 ? this.arrayToString(this.chapter.textBlocks, '\n\n') : ''
         this.loadImage()
       }).catch(err => {
         console.log('Form Chapter : load data error ', err)

@@ -19,7 +19,6 @@
       <file-upload class="file-input is-half column" :preview="true" :name="'place'" :accept="'image/*'" :label="'Image du lieu'" :index="0" @isLoaded="handleFile" :src="src" />
     </div>
 
-
      <div class="field">
        <label class="label">Description </label>
        <div class="control">

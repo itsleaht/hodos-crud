@@ -83,7 +83,6 @@ export default {
         const character = JSON.parse(response.bodyText)
         const { name } = character
         this.chapter.character = name
-        console.log(JSON.parse(character.textBlocks))
       })
     })
   },

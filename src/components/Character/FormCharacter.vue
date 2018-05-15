@@ -124,17 +124,16 @@ export default {
       if (this.isEdit) {
         this.$http.post(`${this.$API_URL}/api/characters/edit.php?id=${this.characterId}`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'listCharacter'})
-        }, (response) => {
-          console.log('error', response)
+        }).catch(err => {
+          console.log('Form Character edit error : ', err)
           this.hasError = true
           this.state = 1
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/characters/create.php`, formData, {emulateJSON: true}).then((response) => {
-          console.log(response.bodyText)
-          // this.$router.push({name: 'listCharacter'})
-        }, (response) => {
-          console.log('error', response)
+          this.$router.push({name: 'listCharacter'})
+        }).catch(err => {
+          console.log('Form Character add error : ', err)
           this.hasError = true
           this.state = 1
         })

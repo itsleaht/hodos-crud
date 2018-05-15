@@ -69,13 +69,12 @@ export default {
     loadImages (imagePath) {
       this.$http.get(`${this.$API_URL}/api/uploads/characters/${imagePath}/${this.characterId}.png`).then(response => {
         if (response.body.length) {
-          console.log(imagePath)
           this.src[imagePath] = response.url
         } else {
           this.src[imagePath] = 'https://bulma.io/images/placeholders/1280x960.png'
         }
       }).catch(err => {
-        console.log(err)
+        console.log('View character image load error : ', err)
         this.src[imagePath] = 'https://bulma.io/images/placeholders/1280x960.png'
       })
     }
@@ -87,7 +86,11 @@ export default {
         const place = JSON.parse(response.bodyText)
         const { name } = place
         this.character.place = name
+      }).catch(err => {
+        console.log('View Character data place error : ', err)
       })
+    }).catch(err => {
+      console.log('View Character data error : ', err)
     })
   },
   mounted () {

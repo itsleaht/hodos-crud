@@ -67,7 +67,6 @@ export default {
       reader.addEventListener('load', () => {
         this.src = reader.result
         this.isLoading = 2
-        console.log(this.index, file)
         this.$emit('isLoaded', {
           index: this.index,
           file: file
@@ -78,7 +77,7 @@ export default {
     }
   },
   watch: {
-    src(newProp) {
+    src (newProp) {
       this.source = newProp
     }
   }

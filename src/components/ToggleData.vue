@@ -21,7 +21,7 @@ export default {
     return {
       toggleData: false
     }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>

@@ -40,7 +40,7 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     vertical-align: middle;
-    
+
       &.actions {
         min-width: 375px;
       }
@@ -51,4 +51,38 @@
     color: #7b95a7;
     color: #4f6574
   }
+}
+
+.editBtn {
+  position: absolute;
+  right: 40px;
+  top: 70px;
+}
+
+.imagesFiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+
+  > figure {
+    margin: 15px;
+    width: 300px;
+
+    img {
+      width: auto;
+      height: 300px;
+      margin: 0 auto;
+    }
+
+    figcaption {
+      color: grey;
+      font-size: 12px;
+      padding: 5px;
+    }
+  }
+}
+
+.fileUploadWrapper {
+  height: 270px;
 }

@@ -2,14 +2,14 @@
 <div id="view-character">
   <h2>Vue du personnage avec l'id {{ $route.params.id }}</h2>
 
-  <router-link :to="{ name: 'editCharacter', params: { id: character.id }}" class="button is-warning">
+  <router-link :to="{ name: 'editCharacter', params: { id: character.id }}" class="button is-warning editBtn">
     <span class="icon is-small">
       <i class="fas fa-edit"></i>
     </span>
     <span>Modifier</span>
   </router-link>
 
-  <div class="images">
+  <div class="imagesFiles">
     <figure class="image">
       <a :href="src.profile" target="_blank">
         <img :src="src.profile">
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     loadImages (imagePath) {
-      this.$http.get(`${this.$API_URL}/api/images/${imagePath}/${this.characterId}/jpg`).then(response => {
+      this.$http.get(`${this.$API_URL}/api/uploads/characters/${imagePath}/${this.characterId}.png`).then(response => {
         if (response.body.length) {
           console.log(imagePath)
           this.src[imagePath] = response.url
@@ -76,6 +76,7 @@ export default {
         }
       }).catch(err => {
         console.log(err)
+        this.src[imagePath] = 'https://bulma.io/images/placeholders/1280x960.png'
       })
     }
   },
@@ -91,7 +92,6 @@ export default {
   },
   mounted () {
     const imageSrcArrays = Object.keys(this.src)
-    console.log(imageSrcArrays)
     for (let i = 0; i < imageSrcArrays.length; i++) {
       this.loadImages(imageSrcArrays[i])
     }
@@ -100,39 +100,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-  a {
-    position: absolute;
-    right: 40px;
-    top: 70px;
-  }
-
   #view-character {
     margin-bottom: 50px;
-
-    .images {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: flex-end;
-
-      > figure {
-        margin: 15px;
-        width: 300px;
-
-        img {
-          width: auto;
-          height: 300px;
-          margin: 0 auto;
-        }
-
-        figcaption {
-          color: grey;
-          font-size: 12px;
-          padding: 5px;
-        }
-      }
-    }
 
     table {
       margin: 0 auto;

@@ -72,6 +72,7 @@ export default {
 
     nav {
       box-shadow: 1Px 1px 8px rgba(128, 128, 128, 0.2);
+      z-index: 100;
       a {
         &.router-link-active {
           background-color: #00b89c;

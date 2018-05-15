@@ -7,7 +7,7 @@
         </span>
       </button>
       <figure class="image is-4by3">
-        <img :src="src" alt="Placeholder image">
+        <img :src="source" alt="Placeholder image">
       </figure>
     </div>
     <div class="file is-primary">
@@ -18,7 +18,7 @@
             <i class="fas fa-upload"></i>
           </span>
           <span class="file-label">
-            Image de fiche personnage
+           {{label}}
           </span>
         </span>
       </label>
@@ -40,16 +40,20 @@ export default {
       type: String,
       default: 'image/*'
     },
-    titlePreview: {
-      type: String
+    label: {
+      type: String,
+      default: 'Image'
     },
     index: {
       type: Number
+    },
+    src: {
+      type: String
     }
   },
   data () {
     return {
-      src: 'https://bulma.io/images/placeholders/1280x960.png',
+      source: this.src ? this.src : 'https://bulma.io/images/placeholders/1280x960.png',
       isLoading: 0
     }
   },
@@ -63,6 +67,7 @@ export default {
       reader.addEventListener('load', () => {
         this.src = reader.result
         this.isLoading = 2
+        console.log(this.index, file)
         this.$emit('isLoaded', {
           index: this.index,
           file: file
@@ -70,6 +75,11 @@ export default {
       })
 
       reader.readAsDataURL(file)
+    }
+  },
+  watch: {
+    src(newProp) {
+      this.source = newProp
     }
   }
 }
@@ -82,7 +92,7 @@ export default {
       position: absolute;
       right: 0;
       top: 0;
-      z-index: 500;
+      z-index: 80;
       width: 20px;
       height: 26px;
       cursor: not-allowed;
@@ -91,6 +101,13 @@ export default {
       &:hover {
         border: none;
       }
+    }
+
+  }
+  .file {
+    &-cta,
+    &-label {
+      width: 100%;
     }
   }
 

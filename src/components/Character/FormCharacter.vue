@@ -15,8 +15,8 @@
     </div>
 
     <div class="columns">
-      <file-upload class="file-input" :preview="true" :name="'profile'" :accept="'image/*'" :titlePreview="'Image de fiche personnage'" :index="0" @isLoaded="handleFile"/>
-      <file-upload class="file-input" :preview="true" :name="'map'" :accept="'image/*'" :titlePreview="'Image personnage sur lieux'" :index="1" @isLoaded="handleFile"/>
+      <file-upload class="file-input" :preview="true" :name="'profile'" :accept="'image/*'" :label="'Image du profil'" :index="0" :src="src.profile" @isLoaded="handleFile"/>
+      <file-upload class="file-input" :preview="true" :name="'map'" :accept="'image/*'" :label="'Image sur la map'" :index="1" :src="src.map"  @isLoaded="handleFile"/>
     </div>
 
     <div class="field">
@@ -106,6 +106,10 @@ export default {
         submitError: false,
         hasLoadingError: false
       },
+      src: {
+        'profile': '',
+        'map': ''
+      },
       skillTypes: [
         'Physique',
         'Psychique'
@@ -127,7 +131,8 @@ export default {
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/characters/create.php`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'listCharacter'})
+          console.log(response.bodyText)
+          // this.$router.push({name: 'listCharacter'})
         }, (response) => {
           console.log('error', response)
           this.hasError = true
@@ -137,6 +142,13 @@ export default {
     },
     handleFile (obj) {
       this.character.files[obj.index] = obj.file
+    },
+    loadImages (imagePath) {
+      this.$http.get(`${this.$API_URL}/api/uploads/characters/${imagePath}/${this.characterId}.png`).then(response => {
+        if (response.body.length) {
+          this.src[imagePath] = response.url
+        }
+      })
     }
   },
   mounted () {
@@ -148,6 +160,11 @@ export default {
       this.characterId = this.isEdit ? this.$route.params.id : null
       this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.characterId}`).then((response) => {
         this.character = JSON.parse(response.bodyText)
+        this.character.files = []
+        const imageSrcArrays = Object.keys(this.src)
+        for (let i = 0; i < imageSrcArrays.length; i++) {
+          this.loadImages(imageSrcArrays[i])
+        }
       })
     }
   }

@@ -3,12 +3,20 @@
 
   <h2>Vue du chapitre avec l'id {{ $route.params.id }}</h2>
 
-  <router-link :to="{ name: 'editChapter', params: { id: chapter.id }}" class="button is-warning">
+  <router-link :to="{ name: 'editChapter', params: { id: chapter.id }}" class="button is-warning editBtn">
     <span class="icon is-small">
       <i class="fas fa-edit"></i>
     </span>
     <span>Modifier</span>
   </router-link>
+  <div class="imagesFiles">
+    <figure class="image">
+      <a :href="src" target="_blank">
+        <img :src="src">
+      </a>
+      <figcaption>Image du chapitre</figcaption>
+    </figure>
+  </div>
 
   <div class="table-container">
     <div v-for="(value, key, index) in chapter" :key="index" class="table-line">
@@ -33,6 +41,7 @@ export default {
     return {
       chapters: [],
       chapter: {},
+      src: null,
       chapterId: this.$route.params.id,
       fields: [
         'ID',
@@ -48,6 +57,18 @@ export default {
     }
   },
   methods: {
+    loadImage () {
+      this.$http.get(`${this.$API_URL}/api/uploads/chapters/${this.chapterId}.png`).then(response => {
+        if (response.body.length) {
+          this.src = response.url
+        } else {
+          this.src = 'https://bulma.io/images/placeholders/1280x960.png'
+        }
+      }).catch(err => {
+        console.log('View Place : load Image error ', err)
+        this.src = 'https://bulma.io/images/placeholders/1280x960.png'
+      })
+    }
   },
   created () {
     this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
@@ -62,15 +83,19 @@ export default {
         const character = JSON.parse(response.bodyText)
         const { name } = character
         this.chapter.character = name
+        console.log(JSON.parse(character.textBlocks))
       })
     })
+  },
+  mounted () {
+    this.loadImage()
   }
 }
 </script>
 
 <style lang="scss" scoped>
 
-  a {
+  .editBtn {
     position: absolute;
     right: 40px;
     top: 70px;

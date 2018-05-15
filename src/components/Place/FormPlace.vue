@@ -11,14 +11,19 @@
      <div class="field">
        <label class="label">Nom </label>
        <div class="control">
-         <input class="input" type="text" placeholder="Ex : Mont Parnasse" v-model="place.name">
+         <input class="input" type="text" placeholder="Ex : Mont Parnasse" v-model="place.name" name="name">
        </div>
      </div>
+
+     <div class="columns fileUploadWrapper">
+      <file-upload class="file-input is-half column" :preview="true" :name="'place'" :accept="'image/*'" :label="'Image du lieu'" :index="0" @isLoaded="handleFile" :src="src" />
+    </div>
+
 
      <div class="field">
        <label class="label">Description </label>
        <div class="control">
-         <input class="input" type="text" placeholder="Ex : Maison des Dieux" v-model="place.description">
+         <input class="input" type="text" placeholder="Ex : Maison des Dieux" v-model="place.description" name="description">
        </div>
      </div>
 
@@ -26,7 +31,7 @@
        <label class="label">Chapitres concernés</label>
        <div class="control">
          <div class="select">
-           <select multiple v-model="place.chapters">
+           <select multiple v-model="place.chapters" name="chapters">
              <option v-for="chapter in 100" :key="'place_'+chapter" :value="chapter - 1"> Chapitre {{chapter}}</option>
            </select>
          </div>
@@ -45,9 +50,11 @@
 </template>
 
 <script>
+import fileUpload from '@/components/fileUpload'
 
 export default {
   name: 'form-place',
+  components: {fileUpload},
   data () {
     return {
       isEdit: this.$route.name === 'editPlace',
@@ -55,36 +62,47 @@ export default {
         id: null,
         name: null,
         description: null,
+        files: null,
         chapters: []
       },
       placeId: null,
       state: null,
+      src: null,
       hasError: false
     }
   },
   methods: {
     addPlace () {
+      const form = document.querySelector('form')
+      const formData = new FormData(form)
+
       if (this.isEdit) {
-        this.$http.post(`${this.$API_URL}/api/places/edit.php?id=${this.placeId}`, this.place, {emulateJSON: true}).then((response) => {
-          console.log(response)
+        this.$http.post(`${this.$API_URL}/api/places/edit.php?id=${this.placeId}`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({path: `/lieux/list`})
-        }, (response) => {
-          console.log('error', response)
+        }).catch(err => {
+          console.log('Form place Edit : error', err)
           this.hasError = true
           this.state = 1
-        }
-        )
+        })
       } else {
-        console.log(this.place)
-        this.$http.post(`${this.$API_URL}/api/places/create.php`, this.place, {emulateJSON: true}).then((response) => {
-          console.log(response)
+        this.$http.post(`${this.$API_URL}/api/places/create.php`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'listPlace'})
-        }, (response) => {
-          console.log('error', response)
+        }).catch(err => {
+          console.log('Form Place Create : error', err)
           this.hasError = true
           this.state = 1
         })
       }
+    },
+    handleFile (obj) {
+      this.place.files = obj.file
+    },
+    loadImage () {
+      this.$http.get(`${this.$API_URL}/api/uploads/places/${this.placeId}.png`).then(response => {
+        if (response.body.length) {
+          this.src = response.url
+        }
+      })
     }
   },
   mounted () {
@@ -93,7 +111,9 @@ export default {
       this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
         this.place = JSON.parse(response.bodyText)
         this.place.chapters = this.place.chapters ? this.place.chapters.split() : []
-      }, (response) => {
+        this.loadImage()
+      }).catch(err => {
+        console.log('Form Place Load Data : error', err)
         this.hasError = true
         this.state = 1
       })

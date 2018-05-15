@@ -16,6 +16,10 @@
       </div>
     </div>
 
+     <div class="columns fileUploadWrapper">
+      <file-upload class="file-input is-half column" :preview="true" :name="'chapterImage'" :accept="'image/*'" :src="src" :label="'Image du chapitre'" :index="0" @isLoaded="handleFile"/>
+    </div>
+
     <div class="field">
       <label class="label">Numéro de chapitre (nombre)</label>
       <div class="control">
@@ -45,7 +49,7 @@
       <label class="label">Personnage découvert</label>
       <div class="control">
         <div class="select">
-          <select v-model="chapter.character" name="place">
+          <select v-model="chapter.character" name="character">
             <option v-for="(character, index) in characters" :key="'lieu_'+index" :value="character.id">{{character.id}} - {{character.name}}</option>
           </select>
         </div>
@@ -69,7 +73,7 @@
     <div class="field">
       <label class="label">Blocs de texte</label>
       <div class="control">
-        <textarea class="textarea" name="textBlocks" placeholder="Bloc de texte" rows="15" v-model="chapter.textBlocks"></textarea>
+        <textarea class="textarea" name="textBlocks" placeholder="Bloc de texte" rows="15" v-model="chapter.textBlocks" :v-html="chapter.textBlocks"></textarea>
       </div>
       <p class="info">Pour créer un noueau bloc de texte faire 2 sauts de lignes, et pour créer un paragraphe à l'intérireur d'un bloc de texte, faire un seul retour à la ligne</p>
     </div>
@@ -87,8 +91,11 @@
 
 <script>
 
+import fileUpload from '@/components/fileUpload'
+
 export default {
   name: 'form-chapter',
+  components: {fileUpload},
   data () {
     return {
       isEdit: this.$route.name === 'editChapter',
@@ -101,8 +108,10 @@ export default {
         character: null,
         beginText: null,
         previously: null,
-        textBlocks: null
+        textBlocks: null,
+        files: null
       },
+      src: null,
       chapterId: null,
       state: null,
       places: [],
@@ -113,28 +122,37 @@ export default {
   methods: {
     addChapter () {
       const chapter = this.chapter
+      const form = document.querySelector('form')
+      const formData = new FormData(form)
 
       if (chapter.textBlocks && chapter.textBlocks.length) {
         chapter.textBlocks = chapter.textBlocks.split('\n\n')
+        formData.append('textBlocks', JSON.stringify(chapter.textBlocks))
       }
 
+
       if (this.isEdit) {
-        this.$http.post(`${this.$API_URL}/api/chapters/edit.php?id=${this.chapterId}`, chapter, {emulateJSON: true}).then((response) => {
+        this.$http.post(`${this.$API_URL}/api/chapters/edit.php?id=${this.chapterId}`, formData, {emulateJSON: true}).then((response) => {
+          console.log(response.bodyText)
           this.$router.push({name: 'listChapter'})
-        }, (response) => {
-          console.log('error', response)
+        }).catch(err => {
+          console.log('Form Chapter Edit : error', err)
           this.hasError = true
           this.state = 1
         })
       } else {
-        this.$http.post(`${this.$API_URL}/api/chapters/create.php`, chapter, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'listChapter'})
-        }, (response) => {
-          console.log('error', response)
+        this.$http.post(`${this.$API_URL}/api/chapters/create.php`, formData, {emulateJSON: true}).then((response) => {
+          console.log(response)
+          // this.$router.push({name: 'listChapter'})
+        }).catch(err => {
+          console.log('Form Chapter Create : error', err)
           this.hasError = true
           this.state = 1
         })
       }
+    },
+    handleFile (obj) {
+      this.chapter.files = obj.file
     },
     arrayToString (arr, separator) {
       let str = ''
@@ -145,14 +163,31 @@ export default {
         }
       })
       return str
+    },
+    loadImage () {
+      this.$http.get(`${this.$API_URL}/api/uploads/chapters/${this.chapterId}.png`).then(response => {
+        if (response.body.length) {
+          this.src = response.url
+        } else {
+          this.src = 'https://bulma.io/images/placeholders/1280x960.png'
+        }
+      }).catch(err => {
+        console.log('View Place : load Image error ', err)
+        this.src = 'https://bulma.io/images/placeholders/1280x960.png'
+      })
     }
   },
   mounted () {
     this.$http.get(`${this.$API_URL}/api/places/index.php`).then((response) => {
       this.places = JSON.parse(response.bodyText)
+    }).catch(err => {
+      console.log('Form Chapter : load places data error ', err)
     })
+
     this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
       this.characters = JSON.parse(response.bodyText)
+    }).catch(err => {
+      console.log('Form Chapter : load data error ', err)
     })
 
     if (this.isEdit) {
@@ -160,8 +195,10 @@ export default {
 
       this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
         this.chapter = JSON.parse(response.bodyText)
-        this.chapter.textBlocks =  this.chapter.textBlocks ? this.arrayToString(this.chapter.textBlocks, '\n\n') : ''
-      }, (response) => {
+        this.chapter.textBlocks =  this.chapter.textBlocks && this.chapter.textBlocks.length > 0 ? this.arrayToString(this.chapter.textBlocks, '\n\n') : ''
+        this.loadImage()
+      }).catch(err => {
+        console.log('Form Chapter : load data error ', err)
         this.hasError = true
         this.state = 1
       })

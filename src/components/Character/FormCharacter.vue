@@ -27,38 +27,9 @@
     </div>
 
     <div class="field">
-      <label class="label">Compétence</label>
-      <div class="control">
-        <input class="input" type="text" name="type" v-model="character.skill" placeholder="Ex : Pouvoir voler, faire du feu...">
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="label">Type de compétence</label>
-      <div class="control">
-        <div class="select">
-          <select v-model="character.skillType" name="place">
-            <option v-for="(skillType, index) in skillTypes" :key="'skillType_'+index" :value="skillType">{{skillType}}</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="field">
       <label class="label">Rôle</label>
       <div class="control">
         <input class="input" type="text" name="role" v-model="character.role" placeholder="Ex : Guide les âmes perdus / Dieu de la mer ">
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="label">Lieu de rencontre</label>
-      <div class="control">
-        <div class="select">
-          <select v-model="character.place" name="place">
-            <option v-for="(lieu, index) in lieux" :key="'lieu_'+index" :value="lieu.id">{{lieu.id}} - {{lieu.name}}</option>
-          </select>
-        </div>
       </div>
     </div>
 
@@ -100,7 +71,6 @@ export default {
       },
       isEdit: this.$route.name === 'editCharacter',
       characterId: null,
-      lieux: [],
       state: null,
       errors: {
         submitError: false,
@@ -151,10 +121,6 @@ export default {
     }
   },
   mounted () {
-    this.$http.get(`${this.$API_URL}/api/places/index.php`).then((response) => {
-      this.lieux = JSON.parse(response.bodyText)
-    })
-
     if (this.isEdit) {
       this.characterId = this.isEdit ? this.$route.params.id : null
       this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.characterId}`).then((response) => {

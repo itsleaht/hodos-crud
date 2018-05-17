@@ -71,7 +71,7 @@
       <label class="label">Compétence découverte</label>
       <div class="control">
         <div class="select">
-          <select v-model="chapter.skillDiscovered" name="skillDiscovered">
+          <select v-model="chapter.skillDiscovered" name="skillDiscovered" multiple>
             <option v-for="(skill, index) in skills" :key="'skillDiscovered_'+index" :value="skill.id">{{skill.id}} - {{skill.name}}</option>
           </select>
         </div>
@@ -142,8 +142,13 @@ export default {
         beginText: null,
         previously: null,
         textBlocks: null,
-        files: null
+        files: null,
+        charactersDiscovered: [],
+        characters: [],
+        skillUsed: [],
+        skillDiscovered: []
       },
+      skills: [],
       src: null,
       chapterId: null,
       state: null,
@@ -163,8 +168,17 @@ export default {
         formData.append('textBlocks', JSON.stringify(chapter.textBlocks))
       }
 
+      if (chapter.beginText && chapter.beginText.length) {
+        chapter.beginText = chapter.beginText.split('\n')
+        formData.append('beginText', JSON.stringify(chapter.beginText))
+      }
+
       if (chapter.charactersDiscovered && chapter.charactersDiscovered.length) {
         formData.append('charactersDiscovered', JSON.stringify(chapter.charactersDiscovered))
+      }
+
+      if (chapter.skillDiscovered && chapter.skillDiscovered.length) {
+        formData.append('skillDiscovered', JSON.stringify(chapter.skillDiscovered))
       }
 
       if (chapter.characters && chapter.characters.length) {
@@ -173,7 +187,7 @@ export default {
 
       if (this.isEdit) {
         this.$http.post(`${this.$API_URL}/api/chapters/edit.php?id=${this.chapterId}`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'viewChapter', params: {id : this.chapterId} })
+          this.$router.push({name: 'viewChapter', params: {id: this.chapterId}})
         }).catch(err => {
           console.log('Form Chapter Edit : error', err)
           this.hasError = true
@@ -181,7 +195,9 @@ export default {
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/chapters/create.php`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'viewChapter', params: {id : this.chapterId} })
+          console.log(response)
+          const newChapter = JSON.parse(response.bodyText)
+          this.$router.push({name: 'viewChapter', params: {id: newChapter.id}})
         }).catch(err => {
           console.log('Form Chapter Create : error', err)
           this.hasError = true

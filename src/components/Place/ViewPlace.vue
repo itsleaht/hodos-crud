@@ -26,7 +26,7 @@
         <td v-else>{{ value }}</td>
       </div>
     </div>
-  <toggle-data :data="place" />
+  <toggle-data :data="datas" />
   </div>
 </template>
 
@@ -40,6 +40,7 @@ export default {
     return {
       place: {},
       placeId: this.$route.params.id,
+      datas: {},
       fields: [
         {name: 'ID'},
         {name: 'Nom'},
@@ -67,13 +68,15 @@ export default {
   created () {
     this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
       this.place = JSON.parse(response.bodyText)
+      this.datas = JSON.parse(response.bodyText)
+
       this.place.characters = []
 
       this.$http.get(`${this.$API_URL}/api/chapters/index.php`).then((response) => {
         const chapterList = JSON.parse(response.bodyText)
         var chaptersListObj = []
 
-        //Get all matching chapters
+        // Get all matching chapters
         const chapterArray = this.place.chapters
         this.place.chapters = []
         chapterArray.map((chapter) => {
@@ -87,9 +90,9 @@ export default {
           }
         })
 
-          //Get all matching characters
-        var charactersIds = [];
-        var uniqueIds = [];
+        // Get all matching characters
+        var charactersIds = []
+        var uniqueIds = []
         chaptersListObj.map((chapter) => {
           const chapterCharacters = chapter.characters
 
@@ -102,7 +105,6 @@ export default {
 
         this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
           const characterList = JSON.parse(response.bodyText)
-          console.log(characterList)
           var newCharactersArray = []
           uniqueIds.map(id => {
             for (let i = 0; i < characterList.length; i++) {
@@ -111,8 +113,7 @@ export default {
               }
             }
           })
-          this.place =  {...this.place, 'characters': newCharactersArray}
-          console.log(this.place)
+          this.place = {...this.place, 'characters': newCharactersArray}
         })
       }).catch(err => {
         console.log('View Place : load data error ', err)

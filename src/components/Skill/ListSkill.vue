@@ -6,6 +6,7 @@
       <tr>
         <th>ID</th>
         <th>Nom</th>
+        <th>Type</th>
         <th>Actions</th>
       </tr>
       </thead>
@@ -13,6 +14,7 @@
       <tr>
         <th>ID</th>
         <th>Nom</th>
+        <th>Type</th>
         <th class="actions">Actions</th>
       </tr>
       </tfoot>
@@ -20,6 +22,7 @@
       <tr v-for="skill in skills" :key="skill.id">
         <th>{{skill.id}}</th>
         <td>{{skill.name}}</td>
+        <td>{{skillsTypes[skill.type].name}}</td>
         <td>
           <router-link :to="{name: 'viewSkill', params: {id: skill.id} }" class="button is-info">
               <span class="icon is-small">
@@ -51,7 +54,8 @@ export default {
   name: 'list-skill',
   data () {
     return {
-      skills: []
+      skills: [],
+      skillsTypes: []
     }
   },
   methods: {
@@ -69,6 +73,10 @@ export default {
   created () {
     this.$http.get(`${this.$API_URL}/api/skills`).then((response) => {
       this.skills = JSON.parse(response.bodyText)
+
+      this.$http.get(`${this.$API_URL}/api/skillTypes`).then((response) => {
+        this.skillsTypes = JSON.parse(response.bodyText)
+      })
     })
   }
 }

@@ -77,7 +77,7 @@ export default {
 
       if (this.isEdit) {
         this.$http.post(`${this.$API_URL}/api/skills/edit.php?id=${this.skillId}`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'listSkill'})
+          this.$router.push({name: 'viewSkill', params: {id: this.skillId}})
         }).catch(err => {
           console.log('Form Skill Edit : error', err)
           this.hasError = true
@@ -85,7 +85,8 @@ export default {
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/skills/create.php`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'listSkill'})
+          const newSkill = JSON.parse(response.bodyText)
+          this.$router.push({name: 'viewSkill', params: {id: newSkill.id}})
         }).catch(err => {
           console.log('Form Skill Create : error', err)
           this.hasError = true

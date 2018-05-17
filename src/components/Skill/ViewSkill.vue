@@ -18,7 +18,7 @@
         <td v-else>{{ value }}</td>
       </div>
     </div>
-  <toggle-data :data="skill" />
+  <toggle-data :data="datas" />
   </div>
 </template>
 
@@ -38,7 +38,8 @@ export default {
         'Type',
         'Personnage associé'
       ],
-      src: ''
+      src: '',
+      datas: {}
     }
   },
   methods: {
@@ -46,6 +47,7 @@ export default {
   created () {
     this.$http.get(`${this.$API_URL}/api/skills/view.php?id=${this.skillId}`).then((response) => {
       this.skill = JSON.parse(response.bodyText)
+      this.datas = JSON.parse(response.bodyText)
 
       this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.skill.character}`).then((response) => {
         const character = JSON.parse(response.bodyText)

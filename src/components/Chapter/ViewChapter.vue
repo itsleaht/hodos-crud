@@ -27,7 +27,7 @@
       <td v-else>{{ value }}</td>
     </div>
   </div>
-  <toggle-data :data="chapter" />
+  <toggle-data :data="datas" />
 </div>
 </template>
 
@@ -42,6 +42,7 @@ export default {
       chapters: [],
       chapter: {},
       src: null,
+      datas: {},
       chapterId: this.$route.params.id,
       fields: [
         'ID',
@@ -75,52 +76,70 @@ export default {
   },
   created () {
     this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
+      this.datas = JSON.parse(response.bodyText)
       this.chapter = JSON.parse(response.bodyText)
 
-      this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.chapter.place}`).then((response) => {
-        const place = JSON.parse(response.bodyText)
-        const { name } = place
-        this.chapter.place = name
-      })
+      if (this.chapter.place >= 0 && this.chapter.place !== null) {
+        this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.chapter.place}`).then((response) => {
+          const place = JSON.parse(response.bodyText)
+          const { name } = place
+          this.chapter.place = name
+        })
+      }
 
-      this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
+      this.$http.get(`${this.$API_URL}/api/characters`).then((response) => {
         const characterList = JSON.parse(response.bodyText)
 
         const charactersDiscoveredArray = this.chapter.charactersDiscovered
 
-        this.chapter.charactersDiscovered = []
-        charactersDiscoveredArray.map((character) => {
-          for (let i = 0; i < characterList.length; i++) {
-            const item = characterList[i]
-            if (item.id === character) {
-              this.chapter.charactersDiscovered.push(item.name)
+        if (charactersDiscoveredArray && charactersDiscoveredArray.length) {
+          this.chapter.charactersDiscovered = []
+          charactersDiscoveredArray.map((character) => {
+            for (let i = 0; i < characterList.length; i++) {
+              const item = characterList[i]
+              if (item.id === character) {
+                this.chapter.charactersDiscovered.push(item.name)
+              }
             }
-          }
-        })
+          })
+        }
 
         const charactersArray = this.chapter.characters
 
-        this.chapter.characters = []
-        charactersArray.map((character) => {
-          for (let i = 0; i < characterList.length; i++) {
-            const item = characterList[i]
-            if (item.id === character) {
-              this.chapter.characters.push(item.name)
+        if (charactersArray && charactersArray.length) {
+          this.chapter.characters = []
+          charactersArray.map((character) => {
+            for (let i = 0; i < characterList.length; i++) {
+              const item = characterList[i]
+              if (item.id === character) {
+                this.chapter.characters.push(item.name)
+              }
             }
-          }
+          })
+        }
+      })
+
+      if (this.chapter.skillUsed >= 0 && this.chapter.skillUsed !== null) {
+        this.$http.get(`${this.$API_URL}/api/skills/view.php?id=${this.chapter.skillUsed}`).then((response) => {
+          this.chapter.skillUsed = JSON.parse(response.bodyText).name
         })
-      })
+      }
 
-      this.$http.get(`${this.$API_URL}/api/skills/view.php?id=${this.chapter.skillUsed}`).then((response) => {
-        this.chapter.skillUsed = JSON.parse(response.bodyText).name
-      })
-
-      this.$http.get(`${this.$API_URL}/api/skills/view.php?id=${this.chapter.skillDiscovered}`).then((response) => {
-        this.chapter.skillDiscovered = JSON.parse(response.bodyText).name
-      })
+      if (this.chapter.skillDiscovered.length) {
+        this.$http.get(`${this.$API_URL}/api/skills`).then((response) => {
+          const skillList = JSON.parse(response.bodyText)
+          this.chapter.skillDiscovered = []
+          skillList.map((skill) => {
+            for (let i = 0; i < this.chapter.skillDiscovered.length; i++) {
+              const item = this.chapter.skillDiscovered[i]
+              if (item === skill.id) {
+                this.chapter.skillDiscovered.push(skill.name)
+              }
+            }
+          })
+        })
+      }
     })
-  },
-  mounted () {
     this.loadImage()
   }
 }

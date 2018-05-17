@@ -34,7 +34,7 @@
       <td v-else>{{ value }}</td>
     </div>
   </div>
-  <toggle-data :data="character"/>
+  <toggle-data :data="datas"/>
 </div>
 </template>
 
@@ -51,6 +51,7 @@ export default {
         'map': ''
       },
       character: {},
+      datas: {},
       fields: [
         {name: 'ID'},
         {name: 'Nom'},
@@ -58,7 +59,7 @@ export default {
         {name: 'Rôle'},
         {name: 'Description'},
         {name: 'Liens de parenté'},
-        {name: 'Compétences', unEditable: true},
+        {name: 'Compétences', unEditable: true}
       ],
       characterId: this.$route.params.id
     }
@@ -80,6 +81,7 @@ export default {
   created () {
     this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.characterId}`).then((response) => {
       this.character = JSON.parse(response.bodyText)
+      this.datas = JSON.parse(response.bodyText)
       this.character.skills = []
 
       this.$http.get(`${this.$API_URL}/api/skills/index.php`).then((response) => {
@@ -87,11 +89,11 @@ export default {
         var characterSkills = []
         skillsList.map(skill => {
           if (skill.character === this.characterId) {
-            console.log("yes")
+            console.log('yes')
             characterSkills.push(skill.name)
           }
         })
-        this.character =  {...this.character, 'skills': characterSkills}
+        this.character = {...this.character, 'skills': characterSkills}
       }).catch(err => {
         console.log('View Character data place error : ', err)
       })

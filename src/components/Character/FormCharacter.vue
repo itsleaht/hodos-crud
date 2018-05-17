@@ -93,7 +93,7 @@ export default {
 
       if (this.isEdit) {
         this.$http.post(`${this.$API_URL}/api/characters/edit.php?id=${this.characterId}`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'listCharacter'})
+          this.$router.push({name: 'viewCharacter', params: {id: this.characterId}})
         }).catch(err => {
           console.log('Form Character edit error : ', err)
           this.hasError = true
@@ -101,7 +101,8 @@ export default {
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/characters/create.php`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'listCharacter'})
+          const newCharacter = JSON.parse(response.bodyText)
+          this.$router.push({name: 'viewCharacter', params: {id: newCharacter.id}})
         }).catch(err => {
           console.log('Form Character add error : ', err)
           this.hasError = true

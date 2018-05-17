@@ -76,12 +76,12 @@ export default {
       const form = document.querySelector('form')
       const formData = new FormData(form)
 
-      if (this.place.chapters.length) {
+      if (this.place.chapters && this.place.chapters.length) {
         formData.append('chapters', JSON.stringify(this.place.chapters))
       }
       if (this.isEdit) {
         this.$http.post(`${this.$API_URL}/api/places/edit.php?id=${this.placeId}`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({path: `/lieux/list`})
+          this.$router.push({name: 'viewPlace', params: {id: this.placeId}})
         }).catch(err => {
           console.log('Form place Edit : error', err)
           this.hasError = true
@@ -89,7 +89,8 @@ export default {
         })
       } else {
         this.$http.post(`${this.$API_URL}/api/places/create.php`, formData, {emulateJSON: true}).then((response) => {
-          this.$router.push({name: 'listPlace'})
+          const newPlace = JSON.parse(response.bodyText)
+          this.$router.push({name: 'viewPlace', params: {id: newPlace.id}})
         }).catch(err => {
           console.log('Form Place Create : error', err)
           this.hasError = true
@@ -113,8 +114,6 @@ export default {
       this.placeId = this.isEdit ? this.$route.params.id : null
       this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
         this.place = JSON.parse(response.bodyText)
-        console.log(this.place.chapters)
-        // this.place.chapters = this.place.chapters.length ? this.place.chapters.split() : []
         this.loadImage()
       }).catch(err => {
         console.log('Form Place Load Data : error', err)

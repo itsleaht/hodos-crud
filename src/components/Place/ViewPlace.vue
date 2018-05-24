@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     loadImage () {
-      this.$http.get(`${this.$API_URL}/api/uploads/places/${this.placeId}.png`).then(response => {
+      this.$http.get(`${this.$API_URL}/uploads/places/${this.placeId}.png`).then(response => {
         if (response.body.length) {
           this.src = response.url
         } else {
@@ -66,13 +66,13 @@ export default {
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
+    this.$http.get(`${this.$API_URL}/places/view.php?id=${this.placeId}`).then((response) => {
       this.place = JSON.parse(response.bodyText)
       this.datas = JSON.parse(response.bodyText)
 
       this.place.characters = []
 
-      this.$http.get(`${this.$API_URL}/api/chapters/index.php`).then((response) => {
+      this.$http.get(`${this.$API_URL}/chapters/index.php`).then((response) => {
         const chapterList = JSON.parse(response.bodyText)
         var chaptersListObj = []
 
@@ -103,7 +103,7 @@ export default {
           }
         })
 
-        this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
+        this.$http.get(`${this.$API_URL}/characters/index.php`).then((response) => {
           const characterList = JSON.parse(response.bodyText)
           var newCharactersArray = []
           uniqueIds.map(id => {

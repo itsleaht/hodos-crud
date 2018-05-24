@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     loadImages (imagePath) {
-      this.$http.get(`${this.$API_URL}/api/uploads/characters/${imagePath}/${this.characterId}.png`).then(response => {
+      this.$http.get(`${this.$API_URL}/uploads/characters/${imagePath}/${this.characterId}.png`).then(response => {
         if (response.body.length) {
           this.src[imagePath] = response.url
         } else {
@@ -79,12 +79,12 @@ export default {
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.characterId}`).then((response) => {
+    this.$http.get(`${this.$API_URL}/characters/view.php?id=${this.characterId}`).then((response) => {
       this.character = JSON.parse(response.bodyText)
       this.datas = JSON.parse(response.bodyText)
       this.character.skills = []
 
-      this.$http.get(`${this.$API_URL}/api/skills/index.php`).then((response) => {
+      this.$http.get(`${this.$API_URL}/skills/index.php`).then((response) => {
         const skillsList = JSON.parse(response.bodyText)
         var characterSkills = []
         skillsList.map(skill => {

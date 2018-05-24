@@ -186,7 +186,7 @@ export default {
       }
 
       if (this.isEdit) {
-        this.$http.post(`${this.$API_URL}/api/chapters/edit.php?id=${this.chapterId}`, formData, {emulateJSON: true}).then((response) => {
+        this.$http.post(`${this.$API_URL}/chapters/edit.php?id=${this.chapterId}`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'viewChapter', params: {id: this.chapterId}})
         }).catch(err => {
           console.log('Form Chapter Edit : error', err)
@@ -194,7 +194,7 @@ export default {
           this.state = 1
         })
       } else {
-        this.$http.post(`${this.$API_URL}/api/chapters/create.php`, formData, {emulateJSON: true}).then((response) => {
+        this.$http.post(`${this.$API_URL}/chapters/create.php`, formData, {emulateJSON: true}).then((response) => {
           console.log(response)
           const newChapter = JSON.parse(response.bodyText)
           this.$router.push({name: 'viewChapter', params: {id: newChapter.id}})
@@ -219,7 +219,7 @@ export default {
       return str
     },
     loadImage () {
-      this.$http.get(`${this.$API_URL}/api/uploads/chapters/${this.chapterId}.png`).then(response => {
+      this.$http.get(`${this.$API_URL}/uploads/chapters/${this.chapterId}.png`).then(response => {
         if (response.body.length) {
           this.src = response.url
         } else {
@@ -232,19 +232,19 @@ export default {
     }
   },
   mounted () {
-    this.$http.get(`${this.$API_URL}/api/places/index.php`).then((response) => {
+    this.$http.get(`${this.$API_URL}/places/index.php`).then((response) => {
       this.places = JSON.parse(response.bodyText)
     }).catch(err => {
       console.log('Form Chapter : load places data error ', err)
     })
 
-    this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
+    this.$http.get(`${this.$API_URL}/characters/index.php`).then((response) => {
       this.characters = JSON.parse(response.bodyText)
     }).catch(err => {
       console.log('Form Chapter : load characters error ', err)
     })
 
-    this.$http.get(`${this.$API_URL}/api/skills/index.php`).then((response) => {
+    this.$http.get(`${this.$API_URL}/skills/index.php`).then((response) => {
       this.skills = JSON.parse(response.bodyText)
     }).catch(err => {
       console.log('Form Chapter : load skills error ', err)
@@ -253,7 +253,7 @@ export default {
     if (this.isEdit) {
       this.chapterId = this.isEdit ? this.$route.params.id : null
 
-      this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
+      this.$http.get(`${this.$API_URL}/chapters/view.php?id=${this.chapterId}`).then((response) => {
         this.chapter = JSON.parse(response.bodyText)
         this.chapter.textBlocks = this.chapter.textBlocks && this.chapter.textBlocks.length > 0 ? this.arrayToString(this.chapter.textBlocks, '\n\n') : ''
         this.loadImage()

@@ -60,7 +60,7 @@ export default {
   methods: {
     deleteAlert (id) {
       if (confirm('Êtes-vous sûr de vouloir supprimer ce chapitre ?')) {
-        this.$http.delete(`${this.$API_URL}/api/chapters/delete.php?id=${id}`).then((response) => {
+        this.$http.delete(`${this.$API_URL}/chapters/delete.php?id=${id}`).then((response) => {
           this.chapters = JSON.parse(response.bodyText)
           this.$router.push({name: 'listChapter'})
         })
@@ -68,7 +68,7 @@ export default {
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/chapters`).then((response) => {
+    this.$http.get(`${this.$API_URL}/chapters/index.php`).then((response) => {
       this.chapters = JSON.parse(response.bodyText)
     })
   }

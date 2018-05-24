@@ -80,7 +80,7 @@ export default {
         formData.append('chapters', JSON.stringify(this.place.chapters))
       }
       if (this.isEdit) {
-        this.$http.post(`${this.$API_URL}/api/places/edit.php?id=${this.placeId}`, formData, {emulateJSON: true}).then((response) => {
+        this.$http.post(`${this.$API_URL}/places/edit.php?id=${this.placeId}`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'viewPlace', params: {id: this.placeId}})
         }).catch(err => {
           console.log('Form place Edit : error', err)
@@ -88,7 +88,7 @@ export default {
           this.state = 1
         })
       } else {
-        this.$http.post(`${this.$API_URL}/api/places/create.php`, formData, {emulateJSON: true}).then((response) => {
+        this.$http.post(`${this.$API_URL}/places/create.php`, formData, {emulateJSON: true}).then((response) => {
           const newPlace = JSON.parse(response.bodyText)
           this.$router.push({name: 'viewPlace', params: {id: newPlace.id}})
         }).catch(err => {
@@ -102,7 +102,7 @@ export default {
       this.place.files = obj.file
     },
     loadImage () {
-      this.$http.get(`${this.$API_URL}/api/uploads/places/${this.placeId}.png`).then(response => {
+      this.$http.get(`${this.$API_URL}/uploads/places/${this.placeId}.png`).then(response => {
         if (response.body.length) {
           this.src = response.url
         }
@@ -112,7 +112,7 @@ export default {
   mounted () {
     if (this.isEdit) {
       this.placeId = this.isEdit ? this.$route.params.id : null
-      this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.placeId}`).then((response) => {
+      this.$http.get(`${this.$API_URL}/places/view.php?id=${this.placeId}`).then((response) => {
         this.place = JSON.parse(response.bodyText)
         this.loadImage()
       }).catch(err => {
@@ -122,7 +122,7 @@ export default {
       })
     }
 
-    this.$http.get(`${this.$API_URL}/api/chapters/index.php`).then((response) => {
+    this.$http.get(`${this.$API_URL}/chapters/index.php`).then((response) => {
       this.chapterList = JSON.parse(response.bodyText)
     }).catch(err => {
       console.log('Form Place Load Chapters : error', err)

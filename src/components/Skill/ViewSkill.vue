@@ -45,18 +45,18 @@ export default {
   methods: {
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/skills/view.php?id=${this.skillId}`).then((response) => {
+    this.$http.get(`${this.$API_URL}/skills/view.php?id=${this.skillId}`).then((response) => {
       this.skill = JSON.parse(response.bodyText)
       this.datas = JSON.parse(response.bodyText)
 
-      this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.skill.character}`).then((response) => {
+      this.$http.get(`${this.$API_URL}/characters/view.php?id=${this.skill.character}`).then((response) => {
         const character = JSON.parse(response.bodyText)
         this.skill.character = character.name
       }).catch(err => {
         console.log('View Skill : load character error ', err)
       })
 
-      this.$http.get(`${this.$API_URL}/api/skillTypes/index.php`).then((response) => {
+      this.$http.get(`${this.$API_URL}/skillTypes/index.php`).then((response) => {
         const skillTypes = JSON.parse(response.bodyText)
         this.skill.type = skillTypes[this.skill.type].name
       }).catch(err => {

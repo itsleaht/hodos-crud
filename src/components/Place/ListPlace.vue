@@ -57,7 +57,7 @@ export default {
   methods: {
     deleteAlert (id) {
       if (confirm('Êtes-vous sûr de vouloir supprimer ce lieu ?')) {
-        this.$http.delete(`${this.$API_URL}/api/places/delete.php?id=${id}`).then((response) => {
+        this.$http.delete(`${this.$API_URL}/places/delete.php?id=${id}`).then((response) => {
           this.places = JSON.parse(response.bodyText)
           this.$router.push({name: 'listPlace'})
         }).catch(err => {
@@ -67,7 +67,7 @@ export default {
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/places`).then((response) => {
+    this.$http.get(`${this.$API_URL}/places/index.php`).then((response) => {
       this.places = JSON.parse(response.bodyText)
     })
   }

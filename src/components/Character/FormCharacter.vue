@@ -92,7 +92,7 @@ export default {
       const formData = new FormData(form)
 
       if (this.isEdit) {
-        this.$http.post(`${this.$API_URL}/api/characters/edit.php?id=${this.characterId}`, formData, {emulateJSON: true}).then((response) => {
+        this.$http.post(`${this.$API_URL}/characters/edit.php?id=${this.characterId}`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'viewCharacter', params: {id: this.characterId}})
         }).catch(err => {
           console.log('Form Character edit error : ', err)
@@ -100,7 +100,7 @@ export default {
           this.state = 1
         })
       } else {
-        this.$http.post(`${this.$API_URL}/api/characters/create.php`, formData, {emulateJSON: true}).then((response) => {
+        this.$http.post(`${this.$API_URL}/characters/create.php`, formData, {emulateJSON: true}).then((response) => {
           const newCharacter = JSON.parse(response.bodyText)
           this.$router.push({name: 'viewCharacter', params: {id: newCharacter.id}})
         }).catch(err => {
@@ -114,7 +114,7 @@ export default {
       this.character.files[obj.index] = obj.file
     },
     loadImages (imagePath) {
-      this.$http.get(`${this.$API_URL}/api/uploads/characters/${imagePath}/${this.characterId}.png`).then(response => {
+      this.$http.get(`${this.$API_URL}/uploads/characters/${imagePath}/${this.characterId}.png`).then(response => {
         if (response.body.length) {
           this.src[imagePath] = response.url
         }
@@ -124,7 +124,7 @@ export default {
   mounted () {
     if (this.isEdit) {
       this.characterId = this.isEdit ? this.$route.params.id : null
-      this.$http.get(`${this.$API_URL}/api/characters/view.php?id=${this.characterId}`).then((response) => {
+      this.$http.get(`${this.$API_URL}/characters/view.php?id=${this.characterId}`).then((response) => {
         this.character = JSON.parse(response.bodyText)
         this.character.files = []
         const imageSrcArrays = Object.keys(this.src)

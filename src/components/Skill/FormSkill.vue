@@ -76,7 +76,7 @@ export default {
       const formData = new FormData(form)
 
       if (this.isEdit) {
-        this.$http.post(`${this.$API_URL}/api/skills/edit.php?id=${this.skillId}`, formData, {emulateJSON: true}).then((response) => {
+        this.$http.post(`${this.$API_URL}/skills/edit.php?id=${this.skillId}`, formData, {emulateJSON: true}).then((response) => {
           this.$router.push({name: 'viewSkill', params: {id: this.skillId}})
         }).catch(err => {
           console.log('Form Skill Edit : error', err)
@@ -84,7 +84,7 @@ export default {
           this.state = 1
         })
       } else {
-        this.$http.post(`${this.$API_URL}/api/skills/create.php`, formData, {emulateJSON: true}).then((response) => {
+        this.$http.post(`${this.$API_URL}/skills/create.php`, formData, {emulateJSON: true}).then((response) => {
           const newSkill = JSON.parse(response.bodyText)
           this.$router.push({name: 'viewSkill', params: {id: newSkill.id}})
         }).catch(err => {
@@ -96,13 +96,13 @@ export default {
     }
   },
   mounted () {
-    this.$http.get(`${this.$API_URL}/api/characters/index.php`).then((response) => {
+    this.$http.get(`${this.$API_URL}/characters/index.php`).then((response) => {
       this.characters = JSON.parse(response.bodyText)
     }).catch(err => {
       console.log('Form Skill : load characters data error ', err)
     })
 
-    this.$http.get(`${this.$API_URL}/api/skillTypes/index.php`).then((response) => {
+    this.$http.get(`${this.$API_URL}/skillTypes/index.php`).then((response) => {
       this.skillTypes = JSON.parse(response.bodyText)
     }).catch(err => {
       console.log('Form Skill : load skillTypes data error ', err)
@@ -111,7 +111,7 @@ export default {
     if (this.isEdit) {
       this.skillId = this.isEdit ? this.$route.params.id : null
 
-      this.$http.get(`${this.$API_URL}/api/skills/view.php?id=${this.skillId}`).then((response) => {
+      this.$http.get(`${this.$API_URL}/skills/view.php?id=${this.skillId}`).then((response) => {
         this.skill = JSON.parse(response.bodyText)
       }).catch(err => {
         console.log('Form Skill : load data error ', err)

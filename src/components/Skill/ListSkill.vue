@@ -61,7 +61,7 @@ export default {
   methods: {
     deleteAlert (id) {
       if (confirm('Êtes-vous sûr de vouloir supprimer cette compétence ?')) {
-        this.$http.delete(`${this.$API_URL}/api/skills/delete.php?id=${id}`).then((response) => {
+        this.$http.delete(`${this.$API_URL}/skills/delete.php?id=${id}`).then((response) => {
           this.skills = JSON.parse(response.bodyText)
           this.$router.push({name: 'listSkill'})
         }).catch(err => {
@@ -71,10 +71,11 @@ export default {
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/skills`).then((response) => {
+    this.$http.get(`${this.$API_URL}/skills/index.php`).then((response) => {
       this.skills = JSON.parse(response.bodyText)
+      console.log(this.skills)
 
-      this.$http.get(`${this.$API_URL}/api/skillTypes`).then((response) => {
+      this.$http.get(`${this.$API_URL}/skillTypes/index.php`).then((response) => {
         this.skillsTypes = JSON.parse(response.bodyText)
       })
     })

@@ -10,7 +10,7 @@ import VueHighlightJS from 'vue-highlightjs'
 Vue.use(VueResource)
 Vue.use(VueHighlightJS)
 Vue.config.productionTip = process.env.NODE_ENV === 'production'
-Vue.prototype.$API_URL = (Vue.config.productionTip) ? 'http://leatanda.fr/hodos-api' : 'http://localhost:2000'
+Vue.prototype.$API_URL = (Vue.config.productionTip) ? 'http://leatanda.fr/hodos-api/api' : 'http://leatanda.fr/hodos-api/api'
 
 /* eslint-disable no-new */
 new Vue({

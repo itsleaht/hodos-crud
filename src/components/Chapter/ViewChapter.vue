@@ -75,19 +75,19 @@ export default {
     }
   },
   created () {
-    this.$http.get(`${this.$API_URL}/api/chapters/view.php?id=${this.chapterId}`).then((response) => {
+    this.$http.get(`${this.$API_URL}/chapters/view.php?id=${this.chapterId}`).then((response) => {
       this.datas = JSON.parse(response.bodyText)
       this.chapter = JSON.parse(response.bodyText)
 
       if (this.chapter.place >= 0 && this.chapter.place !== null) {
-        this.$http.get(`${this.$API_URL}/api/places/view.php?id=${this.chapter.place}`).then((response) => {
+        this.$http.get(`${this.$API_URL}/places/view.php?id=${this.chapter.place}`).then((response) => {
           const place = JSON.parse(response.bodyText)
           const { name } = place
           this.chapter.place = name
         })
       }
 
-      this.$http.get(`${this.$API_URL}/api/characters`).then((response) => {
+      this.$http.get(`${this.$API_URL}/characters/index.php`).then((response) => {
         const characterList = JSON.parse(response.bodyText)
 
         const charactersDiscoveredArray = this.chapter.charactersDiscovered
@@ -120,13 +120,13 @@ export default {
       })
 
       if (this.chapter.skillUsed >= 0 && this.chapter.skillUsed !== null) {
-        this.$http.get(`${this.$API_URL}/api/skills/view.php?id=${this.chapter.skillUsed}`).then((response) => {
+        this.$http.get(`${this.$API_URL}/skills/view.php?id=${this.chapter.skillUsed}`).then((response) => {
           this.chapter.skillUsed = JSON.parse(response.bodyText).name
         })
       }
 
       if (this.chapter.skillDiscovered.length) {
-        this.$http.get(`${this.$API_URL}/api/skills`).then((response) => {
+        this.$http.get(`${this.$API_URL}/skills/index.php`).then((response) => {
           const skillList = JSON.parse(response.bodyText)
           this.chapter.skillDiscovered = []
           skillList.map((skill) => {
